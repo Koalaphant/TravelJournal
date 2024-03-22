@@ -2,6 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MapSection from './Map';
+import StarRating from './StarRating';
+
 
 const Home = () => {
     const navigation = useNavigation();
@@ -18,6 +20,9 @@ const Home = () => {
         <Image source={require('../assets/star.png')} style={styles.buttonImg} />
         <Image source={require('../assets/star.png')} style={styles.buttonImg} />
         <Image source={require('../assets/star.png')} style={styles.buttonImg} />
+      </View>
+      <View style={styles.dropdownContainer}>
+        <StarRating />
       </View>
       <View style={styles.buttonLayout}>
         <TouchableOpacity style={styles.buttons}>
@@ -45,6 +50,10 @@ const Home = () => {
 const styles = StyleSheet.create({
     home: {
         backgroundColor: '#FFEDDF',
+    },
+    dropdownContainer: {
+      flex: 1,
+      flexDirection: 'column'
     },
     title: {
       backgroundColor: '#FFEDDF',
