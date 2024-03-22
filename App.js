@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import Profile from './components/Profile';
 import TesterComponent from './components/TesterComponent'
+import Gallery from './components/Gallery';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,12 @@ const App = () => {
           name="Test"
           component={TesterComponent}
           options={{title: 'Test'}}
+        />
+
+        <Stack.Screen
+          name="Gallery"
+          component={Gallery}
+          options={{title: 'Gallery'}}
         />
 
         </Stack.Navigator>
