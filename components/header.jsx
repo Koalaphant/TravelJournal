@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, Button,Image} from 'react-native';
+import {Text, View, StyleSheet, Button,Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -18,28 +18,23 @@ const Header = () => {
         
     </View>
         <View style={styles.navbar}>
-        <Button
-        title="Home"
-        onPress={() =>
+        <TouchableOpacity style={styles.buttons}  onPress={() =>
           navigation.navigate('Home')
-        }
-        color='#D76778'
-      />
-        <Button
-        title="Profile"
-        onPress={() =>
+        }>
+          <Text style={styles.buttonText}>Home</Text>
+        </TouchableOpacity>
+      <TouchableOpacity style={styles.buttons}  onPress={() =>
           navigation.navigate('Profile')
-        }
-        color='#D76778'
-      />
-       <Button
-        title="Test"
-        onPress={() =>
-          navigation.navigate('Test')
-        }
-        color='#D76778'
-      />
+        }>
+          <Text style={styles.buttonText}>Profile</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity style={styles.buttons}  onPress={() =>
+          navigation.navigate('Test')
+        }>
+          <Text style={styles.buttonText}>Test</Text>
+        </TouchableOpacity>
+       
     </View>
     </>
   );
@@ -74,8 +69,15 @@ const styles = StyleSheet.create({
     navbar: {
       flexDirection: 'row',
       alignContent: 'center',
+      justifyContent: 'space-around',
       marginTop:0,
-      backgroundColor: '#D76778'
+      backgroundColor: '#D76778',
+    },
+    buttonText:{
+      color:'#fff',
+      fontSize: 16,
+      fontWeight: 'bold',
+      paddingVertical: 5,
     },
     banner:{
       width:'auto',
