@@ -28,13 +28,10 @@ const Home = () => {
       <TouchableOpacity style={styles.buttons} onPress={() =>
           navigation.navigate('Gallery')
         }>
-        <Text style={styles.buttonText}>Gallery</Text>
+        <Text style={styles.buttonText}>Take photo</Text>
         <Image source={require('../assets/gallery.png')} style={styles.buttonImg}/>
       </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons}>
-          <Text style={styles.buttonText}>Gallery</Text>
-          <Image source={require('../assets/gallery.png')} style={styles.buttonImg}/>
-        </TouchableOpacity>
+       
       </View>
       <View>
         <MapSection/>
