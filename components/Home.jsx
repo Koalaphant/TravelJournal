@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import MapSection from './Map';
 
 const Home = () => {
-
+    const navigation = useNavigation();
   return (
     <>
       <ScrollView style={styles.home}>
@@ -24,6 +25,12 @@ const Home = () => {
           <Image source={require('../assets/left-arrow.png')} style={styles.buttonImg}/>
         </TouchableOpacity>
 
+      <TouchableOpacity style={styles.buttons} onPress={() =>
+          navigation.navigate('Gallery')
+        }>
+        <Text style={styles.buttonText}>Gallery</Text>
+        <Image source={require('../assets/gallery.png')} style={styles.buttonImg}/>
+      </TouchableOpacity>
         <TouchableOpacity style={styles.buttons}>
           <Text style={styles.buttonText}>Gallery</Text>
           <Image source={require('../assets/gallery.png')} style={styles.buttonImg}/>
