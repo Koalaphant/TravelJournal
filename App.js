@@ -1,26 +1,21 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from './components/header';
 import Tabs from './navigation/tabs';
-
-
-
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-        <NavigationContainer>
-          <Header />
-          <Tabs/>
-    
-        
-        </NavigationContainer>
-  
+    <NavigationContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Header />
+        <Tabs />
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
 export default App;
-
