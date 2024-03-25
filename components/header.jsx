@@ -9,7 +9,7 @@ const Header = () => {
       <View style={styles.container}>
         <Image
           source={require("../assets/Travelog.png")}
-          style={{ width: 150, height: 50, resizeMode: "contain" }}
+          style={{ width: 250, height: 50, resizeMode: "contain" }}
         />
       </View>
     </>
@@ -18,7 +18,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 30,
+    paddingBottom: 12,
     paddingTop: 30,
     alignItems: "center",
     backgroundColor: "#FFEDDF",

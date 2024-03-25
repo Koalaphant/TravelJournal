@@ -69,6 +69,7 @@ const Tabs = () => {
                   width: 25,
                   height: 25,
                   tintColor: focused ? "#e32f45" : "#748c94",
+                  marginBottom: 2,
                 }}
               />
               <Text
@@ -117,6 +118,7 @@ const Tabs = () => {
                   width: 25,
                   height: 25,
                   tintColor: focused ? "#e32f45" : "#748c94",
+                  marginBottom: 2,
                 }}
               />
               <Text
