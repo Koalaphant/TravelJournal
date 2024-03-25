@@ -6,6 +6,8 @@ import Header from './components/header';
 import Tabs from './navigation/tabs';
 
 
+
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
