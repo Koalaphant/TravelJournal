@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDkqQlT6tiVvpnSNkkxgCv-ANoKEZk0RQs",
@@ -11,8 +12,13 @@ const firebaseConfig = {
   measurementId: "G-T3YG1GHYSG",
 };
 
-const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+//New code here...
+export const FIREBASE_APP = initializeApp(firebaseConfig)
+export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
 
-export { auth };
+
+//Previous code (revert to this if current method does not work)
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// export { auth };
