@@ -46,6 +46,7 @@ const Tabs = () => {
           borderRadius: 15,
           height: 90,
         },
+        headerShown: false,
       }}
     >
       <Tab.Screen
