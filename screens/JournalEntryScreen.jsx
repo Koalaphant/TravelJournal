@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
 import Star from "../components/Star";
 
-const Home = () => {
+const JournalEntryScreen = () => {
   const navigation = useNavigation();
   return (
     <>
@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default JournalEntryScreen;
