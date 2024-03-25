@@ -1,16 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-const Star = ({ rating, onPress }) => {
+const Star = () => {
   const numStars = 5;
+  const [rating, setRating] = useState(0)
+
   const stars = [];
 
   const handlePress = (starIndex) => {
     if (starIndex === rating) {
-        onPress(starIndex - 1)
+        setRating(starIndex - 1)
     } else {
-        onPress(starIndex)
+        setRating(starIndex)
     }
   }
 

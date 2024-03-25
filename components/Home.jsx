@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MapSection from './Map';
@@ -7,10 +7,6 @@ import Star from './Star'
 
 const Home = () => {
     const navigation = useNavigation();
-    const [rating, setRating] = useState(0)
-    const rate = (star) => {
-      setRating(star)
-    }
   return (
     <>
       <ScrollView style={styles.home}>
@@ -19,7 +15,7 @@ const Home = () => {
         <Text style={styles.intro}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam blandit lacinia nulla, in vehicula eros mattis sed. Nunc eu ullamcorper libero. Suspendisse in ultrices tortor. Aliquam nunc nisi, vehicula eget suscipit quis, tristique quis risus. Vivamus vel turpis et eros faucibus rutrum. Proin accumsan nibh convallis, tempus purus id, fringilla felis. Cras sit amet molestie tortor. Aenean eget nibh euismod, semper purus ut, ornare nisi. 
         </Text>
       <View style={styles.starContainer}>
-        <Star rating={rating} onPress={rate} /> 
+        <Star /> 
       </View>
       <View style={styles.buttonLayout}>
         <TouchableOpacity style={styles.buttons}>
