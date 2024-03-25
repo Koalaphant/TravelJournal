@@ -1,11 +1,15 @@
 import React from "react";
-import { StyleSheet, Button, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import HomeMapSection from "../components/HomeMapSection";
+import CountriesList from "../components/CountriesList";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Button title="Click Here" onPress={() => alert("Button Clicked!")} />
+      <View style={styles.contentContainer}>
+        <HomeMapSection />
+        <CountriesList />
+      </View>
     </View>
   );
 };
@@ -16,7 +20,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#8fcbbc",
+    backgroundColor: "#FFEDDF",
+  },
+  contentContainer: {
+    marginHorizontal: 20,
   },
 });
