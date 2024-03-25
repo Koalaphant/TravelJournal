@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  TextInput
+  TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
@@ -15,18 +15,20 @@ import Star from "../components/Star";
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
 
-  const [inputPara, setInputPara] = useState('')
-  const [rating, setRating] = useState(0)
+  const [inputPara, setInputPara] = useState("");
+  const [rating, setRating] = useState(0);
 
   return (
     <>
-      <ScrollView style={styles.home}>
+      <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
         <>
           <Text style={styles.title}>Start your journey here...</Text>
 
-          <TextInput multiline={true} style={styles.intro} onChangeText={setInputPara}></TextInput>
-
-          
+          <TextInput
+            multiline={true}
+            style={styles.intro}
+            onChangeText={setInputPara}
+          ></TextInput>
 
           <View style={styles.starContainer}>
             <Star rating={rating} setRating={setRating} />
@@ -52,7 +54,7 @@ const JournalEntryScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          
+
           <View>
             <MapSection />
           </View>
@@ -92,8 +94,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     borderColor: "#D76778",
     borderWidth: 2,
-    width: '80%',
-    height: '20%',
+    width: "80%",
+    height: "20%",
   },
   buttonLayout: {
     flexDirection: "row",
