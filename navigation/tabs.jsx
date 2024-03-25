@@ -58,7 +58,7 @@ const Tabs = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 10,
+                top: 3,
               }}
             >
               <Image
@@ -106,7 +106,7 @@ const Tabs = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 10,
+                top: 3,
               }}
             >
               <Image

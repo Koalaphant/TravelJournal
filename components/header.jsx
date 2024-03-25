@@ -6,8 +6,11 @@ const Header = () => {
   const navigation = useNavigation();
   return (
     <>
-      <View>
-        <Text>PocketJournal</Text>
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/Travelog.png")}
+          style={{ width: 150, height: 50, resizeMode: "contain" }}
+        />
       </View>
     </>
   );
@@ -15,8 +18,10 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 0,
-    marginBottom: 0,
+    paddingBottom: 30,
+    paddingTop: 30,
+    alignItems: "center",
+    backgroundColor: "#FFEDDF",
   },
 });
 
