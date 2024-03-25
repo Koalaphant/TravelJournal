@@ -68,10 +68,10 @@ const saveImage = async () => {
             justifyContent: 'space-between',
             padding: 30,
         }}>
-            <Button color='#D76778' title='change lens' icon={'retweet'} onPress={() =>{
+            <CameraButton title={'change lens'} icon={'retweet'} onPress={() =>{
                 setType(type === CameraType.back ? CameraType.front : CameraType.back)
             }}/>
-            <Button color='#D76778' title='Flash' icon={'flash'} onPress={() =>{
+            <CameraButton color={flash === Camera.Constants.FlashMode.off ? '#f1f1f1' : '#FFC700'} title={'Flash'} icon={'flash'} onPress={() =>{
                 setFlash(flash === Camera.Constants.FlashMode.off 
                     ? Camera.Constants.FlashMode.on 
                     : Camera.Constants.FlashMode.off
@@ -91,11 +91,11 @@ const saveImage = async () => {
             justifyContent: 'space-between',
             paddingHorizontal: 50,
         }}>
-            <Button color='#D76778' title={'Re-take'} icone='retweet' onPress={() =>setImage(null)} />
-            <Button color='#D76778' title={'Save'} icone='check' onPress={saveImage} />
+            <CameraButton title={'Re-take'} icone='retweet' onPress={() =>setImage(null)} />
+            <CameraButton title={'Save'} icone='check' onPress={saveImage} />
         </View>
         :
-        <Button color='#D76778' title={'Take a picture'} icone='camera' onPress={takePicture} />
+        <CameraButton title={'Take a picture'} icon='camera' onPress={takePicture} />
         }
       </View>
        </>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: '#000',
     justifyContent: 'center',
-    paddingBottom: 20
    },
    camera: {
     flex:1,
