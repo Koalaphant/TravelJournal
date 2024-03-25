@@ -1,22 +1,123 @@
 import React from "react";
-import { StyleSheet, Button, Text, View } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import MapSection from "../components/Map";
+import Star from "../components/Star";
 
-const JournalEntryScreen = () => {
+const Home = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <Text>Journal Entry Screen</Text>
-      <Button title="Click Here" onPress={() => alert("Button Clicked!")} />
-    </View>
+    <>
+      <ScrollView style={styles.home}>
+        <>
+          <Text style={styles.title}>Start your journey here...</Text>
+          <Text style={styles.intro}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam blandit
+            lacinia nulla, in vehicula eros mattis sed. Nunc eu ullamcorper
+            libero. Suspendisse in ultrices tortor. Aliquam nunc nisi, vehicula
+            eget suscipit quis, tristique quis risus. Vivamus vel turpis et eros
+            faucibus rutrum. Proin accumsan nibh convallis, tempus purus id,
+            fringilla felis. Cras sit amet molestie tortor. Aenean eget nibh
+            euismod, semper purus ut, ornare nisi.
+          </Text>
+          <View style={styles.starContainer}>
+            <Star />
+          </View>
+          <View style={styles.buttonLayout}>
+            <TouchableOpacity style={styles.buttons}>
+              <Text style={styles.buttonText}>Submit</Text>
+              <Image
+                source={require("../assets/left-arrow.png")}
+                style={styles.buttonImg}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate("Gallery")}
+            >
+              <Text style={styles.buttonText}>Take photo</Text>
+              <Image
+                source={require("../assets/gallery.png")}
+                style={styles.buttonImg}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <MapSection />
+          </View>
+        </>
+      </ScrollView>
+    </>
   );
 };
 
-export default JournalEntryScreen;
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
+  home: {
+    backgroundColor: "#FFEDDF",
+  },
+  starContainer: {
+    flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "#8fcbbc",
+    marginBottom: 10,
+  },
+  title: {
+    backgroundColor: "#FFEDDF",
+    color: "#D76778",
+    width: "auto",
+    fontSize: 30,
+    fontWeight: "bold",
+    marginVertical: 40,
+    alignSelf: "center",
+  },
+  intro: {
+    backgroundColor: "#ffffff",
+    alignSelf: "center",
+    color: "#D76778",
+    fontSize: 15,
+    marginHorizontal: 12,
+    marginVertical: 10,
+    borderRadius: 12,
+    padding: 10,
+    textAlign: "center",
+    borderColor: "#D76778",
+    borderWidth: 2,
+  },
+  buttonLayout: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginVertical: 10,
+  },
+  buttons: {
+    flexDirection: "row",
+    alignContent: "center",
+    backgroundColor: "#D76778",
+    paddingLeft: 8,
+    borderRadius: 4,
+    alignSelf: "center",
+  },
+  buttonText: {
+    fontSize: 20,
+    color: "white",
+  },
+  buttonImg: {
+    width: 40,
+    height: 40,
+  },
+  mainArrow: {
+    width: 40,
+    height: 40,
+    marginLeft: 20,
+    backgroundColor: "#D76778",
+    borderRadius: 20,
   },
 });
+
+export default Home;
