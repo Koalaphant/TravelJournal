@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import JournalEntryScreen from "../screens/JournalEntryScreen";
 import UserScreen from "../screens/UserScreen";
+import Test from "../screens/Test";
 
 const Tab = createBottomTabNavigator();
 
@@ -122,6 +123,36 @@ const Tabs = () => {
                 style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
               >
                 USER
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Test"
+        component={Test}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 3,
+              }}
+            >
+              <Image
+                source={require("../assets/user.png")}
+                resizeMode="contain"
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: focused ? "#e32f45" : "#748c94",
+                }}
+              />
+              <Text
+                style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
+              >
+                TEST
               </Text>
             </View>
           ),
