@@ -27,9 +27,7 @@ const LoginLayout = () => {
   );
 };
 
-function TabNav() {
-  return <Tabs />;
-}
+
 
 function TabNav() {
   return (
