@@ -3,6 +3,9 @@ import { getAuth } from "firebase/auth";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { getFirestore } from "firebase/firestore";
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
 const firebaseConfig = {
   apiKey: "AIzaSyDkqQlT6tiVvpnSNkkxgCv-ANoKEZk0RQs",
   authDomain: "group-travel-app-5743e.firebaseapp.com",
@@ -17,6 +20,12 @@ const firebaseConfig = {
 //New code here...
 export const FIREBASE_APP = initializeApp(firebaseConfig)
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
+
+if(!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig)
+}
+
+export { firebase }
 
 
 //Previous code (revert to this if current method does not work)
