@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-const Star = () => {
+const Star = (props) => {
+  const {rating, setRating} = props
   const numStars = 5;
-  const [rating, setRating] = useState(0)
 
   const stars = [];
 

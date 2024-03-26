@@ -1,16 +1,18 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import HomeMapSection from "../components/HomeMapSection";
 import CountriesList from "../components/CountriesList";
 
 const HomeScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <HomeMapSection />
-        <CountriesList />
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
+        <View style={styles.contentContainer}>
+          <HomeMapSection />
+          <CountriesList />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

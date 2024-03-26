@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,6 +9,7 @@ import Gallery from "./components/Gallery";
 import Login from "./screens/Login";
 import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
+
 
 const User = FIREBASE_AUTH.currentUser;
 const Stack = createNativeStackNavigator();
@@ -27,6 +29,12 @@ const LoginLayout = () => {
 
 function TabNav() {
   return <Tabs />;
+}
+
+function TabNav() {
+  return (
+    <Tabs />
+  );
 }
 
 const App = () => {
@@ -57,6 +65,7 @@ const App = () => {
         ) : (
           <LoginLayout />
         )}
+
       </SafeAreaView>
     </NavigationContainer>
   );

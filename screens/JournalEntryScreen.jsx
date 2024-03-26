@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
@@ -13,23 +14,26 @@ import Star from "../components/Star";
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
+
+  const [inputPara, setInputPara] = useState("");
+  const [rating, setRating] = useState(0);
+
   return (
     <>
-      <ScrollView style={styles.home}>
+      <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
         <>
           <Text style={styles.title}>Start your journey here...</Text>
-          <Text style={styles.intro}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam blandit
-            lacinia nulla, in vehicula eros mattis sed. Nunc eu ullamcorper
-            libero. Suspendisse in ultrices tortor. Aliquam nunc nisi, vehicula
-            eget suscipit quis, tristique quis risus. Vivamus vel turpis et eros
-            faucibus rutrum. Proin accumsan nibh convallis, tempus purus id,
-            fringilla felis. Cras sit amet molestie tortor. Aenean eget nibh
-            euismod, semper purus ut, ornare nisi.
-          </Text>
+
+          <TextInput
+            multiline={true}
+            style={styles.intro}
+            onChangeText={setInputPara}
+          ></TextInput>
+
           <View style={styles.starContainer}>
-            <Star />
+            <Star rating={rating} setRating={setRating} />
           </View>
+
           <View style={styles.buttonLayout}>
             <TouchableOpacity style={styles.buttons}>
               <Text style={styles.buttonText}>Submit</Text>
@@ -50,6 +54,7 @@ const JournalEntryScreen = () => {
               />
             </TouchableOpacity>
           </View>
+
           <View>
             <MapSection />
           </View>
@@ -86,9 +91,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 12,
     padding: 10,
-    textAlign: "center",
+    textAlign: "left",
     borderColor: "#D76778",
     borderWidth: 2,
+    width: "80%",
+    height: "20%",
   },
   buttonLayout: {
     flexDirection: "row",
