@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDkqQlT6tiVvpnSNkkxgCv-ANoKEZk0RQs",
@@ -22,3 +23,4 @@ export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
 // const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 // export { auth };
+export const db = getFirestore(FIREBASE_APP)
