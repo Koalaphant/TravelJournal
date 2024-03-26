@@ -9,8 +9,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FIREBASE_AUTH } from "../services/config"
+
 
 const UserScreen = () => {
+  const user = FIREBASE_AUTH.currentUser;
   const handlePress = () => {
     Alert.alert("Change your profile picture");
   };
@@ -45,6 +48,9 @@ const UserScreen = () => {
       <View>
         <Text>Mobile Number</Text>
       </View>
+      <View>
+        <Button title="Logout" onPress={() => FIREBASE_AUTH.signOut()} />
+      </View>
     </View>
   );
 };
@@ -73,6 +79,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "fixed",
+   
   },
 
 });
