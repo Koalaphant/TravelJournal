@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
@@ -20,8 +20,8 @@ const HomeMapSection = () => {
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 20.9001,
-          longitudeDelta: 20.9001,
+          latitudeDelta: 50.9001,
+          longitudeDelta: 50.9001,
         });
       }
     })();
@@ -72,6 +72,9 @@ const HomeMapSection = () => {
   return (
     <View style={styles.container}>
       <View style={styles.mapView}>
+        <View style={styles.tripViewContainer}>
+          <Text style={styles.tripView}>Trip View</Text>
+        </View>
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
@@ -95,6 +98,14 @@ const styles = StyleSheet.create({
   },
   mapView: {
     width: "100%",
+  },
+  tripViewContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  tripView: {
+    fontSize: 20,
+    color: "#D86779",
   },
 });
 
