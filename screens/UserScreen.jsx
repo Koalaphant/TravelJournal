@@ -1,51 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
-  Button,
   Text,
   View,
-  Image,
   Alert,
-  TouchableOpacity,
+  TextInput,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ProfilePic from "../components/ProfilePic";
+import {MaterialCommunityIcons} from "@expo/vector-icons"
 
 const UserScreen = () => {
-  const handlePress = () => {
-    Alert.alert("Change your profile picture");
-  };
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [number, setNumber] = useState('')
+
+const onChangeName = (inputText) => {
+  setName(inputText)
+}
+const onChangeEmail = (inputText) => {
+  setEmail(inputText)
+}
+const onChangeNumber = (inputText) => {
+  setNumber(inputText)
+}
+
+const handleName = (name) => {
+  let regex =  /^[a-zA-Z]{2,}$/g
+  if (/[0-9]/.test(name)) {
+    Alert.alert('error', 'skd')
+  }
+}
+// const handleEmail = (email) => {
+//   let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+//   return regex.text(email)
+// }
+// const handleNumber = () => {}
+
+
   return (
-    <View style={styles.container}>
+   <View style={styles.container}>
       <Text style={styles.header}>Welcome User</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
+    <ProfilePic />
+
+    <View style={styles.rows}>
+
+        <View style={styles.row}>
         <MaterialCommunityIcons
-          name="camera-plus-outline"
+          name="account-outline"
           size={24}
-          color="black"
+          color="#D76778"
         />
-      </TouchableOpacity>
+        <TextInput style={styles.input} value={name} placeholder='Enter name' onChangeText={onChangeName} onBlur={handleName}></TextInput>
+        </View>
 
-      <Image
-        style={styles.profilePic}
-        source={{
-          uri: "https://static.wikia.nocookie.net/fortnite/images/0/07/Marcus_Fenix_-_Outfit_-_Fortnite.png/revision/latest?cb=20220627163539",
-        }}
-      />
+        <View style={styles.row}>
+        <MaterialCommunityIcons
+          name="email-outline"
+          size={24}
+          color="#D76778"
+        />
+        <TextInput style={styles.input} value={email} placeholder='Enter email' onChangeText={onChangeEmail}></TextInput>
+        </View>
 
-      <View>
-        <Text>First name</Text>
-      </View>
-      <View>
-        <Text>Last name</Text>
-      </View>
-      <View>
-        <Text>Email</Text>
-      </View>
-      <View>
-        <Text>Mobile Number</Text>
-      </View>
-    </View>
+        <View style={styles.row}>
+        <MaterialCommunityIcons
+          name="phone-outline"
+          size={24}
+          color="#D76778"
+        />
+        <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
+        </View>
+
+    </View>  
+   </View>
   );
 };
 
@@ -55,24 +83,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#8fcbbc",
+    backgroundColor: "#FFEDDF",
   },
   header: {
     marginTop: 12,
     marginBottom: 18,
     fontSize: 29,
     fontWeight: "bold",
+    color: '#D76778'
   },
-  profilePic: {
-    width: 200,
-    height: 200,
-    alignSelf: "center",
-    borderRadius: 100,
-    borderColor: "#D76778",
-    borderWidth: 3,
+  rows: {
+    marginTop: 30,
   },
-  button: {
-    position: "fixed",
-  },
-
+row: {
+  marginTop: 10,
+  borderWidth: 2,
+  borderColor: '#D76778',
+  borderRadius: 20,
+  paddingRight: 200,
+  padding: 8,
+},
+input: {
+  bottom: 0,
+  right: 20,
+  left: 0,
+  position: 'absolute',
+  textAlign: 'right',
+}
 });
