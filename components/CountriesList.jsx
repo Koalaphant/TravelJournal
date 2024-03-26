@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
 const CountriesList = () => {
@@ -41,21 +35,19 @@ const CountriesList = () => {
   ];
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        {testData.map((item, index) => (
-          <View key={index} style={styles.itemContainer}>
-            <ImageBackground
-              source={{ uri: item.coverPhoto }}
-              style={styles.imageBackground}
-            >
-              <View style={styles.overlay} />
-              <Text style={styles.text}>{item.cityName}</Text>
-            </ImageBackground>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {testData.map((item, index) => (
+        <View key={index} style={styles.itemContainer}>
+          <ImageBackground
+            source={{ uri: item.coverPhoto }}
+            style={styles.imageBackground}
+          >
+            <View style={styles.overlay} />
+            <Text style={styles.text}>{item.cityName}</Text>
+          </ImageBackground>
+        </View>
+      ))}
+    </View>
   );
 };
 
