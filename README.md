@@ -5,5 +5,6 @@ npm install<br>
 npm init -y<br>
 npm install expo, expo@50.0.14<br>
 npx expo install react-native-web react-dom @expo/metro-runtime<br>
+npm install firebase<br>
 then run npx expo start
 
