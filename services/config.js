@@ -5,6 +5,10 @@ import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { getFirestore } from "firebase/firestore";
 
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDkqQlT6tiVvpnSNkkxgCv-ANoKEZk0RQs",
   authDomain: "group-travel-app-5743e.firebaseapp.com",
@@ -18,10 +22,12 @@ const firebaseConfig = {
 
 //New code here...
 export const FIREBASE_APP = initializeApp(firebaseConfig)
+
 // export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
 export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
+
 
 //Previous code (revert to this if current method does not work)
 // const app = initializeApp(firebaseConfig);

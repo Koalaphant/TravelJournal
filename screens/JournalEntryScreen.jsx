@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
 import Star from "../components/Star";
+import UploadMedia from "../components/UploadMedia";
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
@@ -53,6 +54,10 @@ const JournalEntryScreen = () => {
                 style={styles.buttonImg}
               />
             </TouchableOpacity>
+          </View>
+
+          <View>
+            <UploadMedia />
           </View>
 
           <View>
