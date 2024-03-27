@@ -8,84 +8,32 @@ import {
   Alert,
   Image,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { firebase, storage } from "../services/config";
-import * as FileSystem from "expo-file-system";
-import { ref, uploadBytes } from "firebase/storage";
+import pickImage from "../utils/pickimage";
+import uploadimage from "../utils/uploadimage";
+import uploadImage from "../utils/uploadimage";
 
 const UploadMedia = () => {
+
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: null, 
-        quality: 1,
-      });
-
-      if (!result.cancelled) {
-        setImage(result.assets[0].uri);
-      }
-    } catch (error) {
-      console.error(error);
-      // Handle the error here, e.g., show an alert to the user
-      Alert.alert("Error", "Failed to pick an image. Please try again.");
-    }
-  };
-
-  //upload media files
-  const uploadMedia = async () => {
-    setUploading(true);
-
-    try {
-      const { uri } = await FileSystem.getInfoAsync(image);
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = () => {
-          resolve(xhr.response);
-        };
-        xhr.onerror = (e) => {
-          reject(new TypeError("Network request failed"));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", uri, true);
-        xhr.send(null);
-      });
-
-      const filename = image.substring(image.lastIndexOf("/") + 1);
-      const storageRef = ref(storage, filename); // Corrected line
-
-      await uploadBytes(storageRef, blob);
-      setUploading(false);
-      Alert.alert("Photo uploaded!");
-      setImage(null);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-    }
-  };
-
   return (
     <View style={styles.container}>
-       {image && (
-        <View style={styles.previewContainer}>
-          <Image source={{ uri: image }} style={styles.previewImage} />
-        </View>
-      )}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.smallButton} onPress={pickImage}>
+        <TouchableOpacity style={styles.smallButton} onPress={() => pickImage(setImage)}>
           <Text style={styles.buttonText}>Pick Image</Text>
         </TouchableOpacity>
         {image && (
-          <TouchableOpacity style={styles.smallButton} onPress={uploadMedia}>
+          <TouchableOpacity style={styles.smallButton} onPress={() => uploadImage(image, setUploading, setImage)}>
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
         )}
       </View>
-     
+      {image && (
+        <View style={styles.previewContainer}>
+          <Image source={{ uri: image }} style={styles.previewImage} />
+        </View>
+      )}
     </View>
   );
 };

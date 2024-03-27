@@ -37,16 +37,16 @@ const UserScreen = () => {
       />
 
       <View>
-        <Text>First name</Text>
-      </View>
-      <View>
-        <Text>Last name</Text>
+        <Text>Username</Text>
       </View>
       <View>
         <Text>Email</Text>
       </View>
       <View>
         <Text>Mobile Number</Text>
+      </View>
+      <View>
+        <Button title="Update Profile" onPress={() => FIREBASE_AUTH.signOut()} />
       </View>
       <View>
         <Button title="Logout" onPress={() => FIREBASE_AUTH.signOut()} />
