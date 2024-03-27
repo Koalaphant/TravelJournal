@@ -35,8 +35,6 @@ const handleName = (name) => {
 //   return regex.text(email)
 // }
 // const handleNumber = () => {}
-
-
   return (
    <View style={styles.container}>
       <Text style={styles.header}>Welcome User</Text>

@@ -11,7 +11,7 @@ import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
 
 
-const User = FIREBASE_AUTH.currentUser;
+
 const Stack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
 
