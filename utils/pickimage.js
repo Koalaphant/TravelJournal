@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 
-const pickImage = async (setImage) => {
+const pickImage = async () => {
   try {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -10,11 +10,13 @@ const pickImage = async (setImage) => {
     });
 
     if (!result.cancelled) {
-      setImage(result.assets[0].uri);
+      return result.assets[0].uri; // Return the URI instead of setting state
     }
+    return null; // Return null if no image is picked
   } catch (error) {
     console.error(error);
     Alert.alert("Error", "Failed to pick an image. Please try again.");
+    return null;
   }
 };
 

@@ -1,11 +1,9 @@
 import { firebase, storage } from "../services/config";
 import * as FileSystem from "expo-file-system";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Alert } from "react-native";
 
-const uploadImage = async (image, setUploading, setImage) => {
-  setUploading(true);
-
+const uploadImage = async (image) => {
   try {
     const { uri } = await FileSystem.getInfoAsync(image);
     const blob = await new Promise((resolve, reject) => {
@@ -25,12 +23,13 @@ const uploadImage = async (image, setUploading, setImage) => {
     const storageRef = ref(storage, filename);
 
     await uploadBytes(storageRef, blob);
-    setUploading(false);
+    const downloadURL = await getDownloadURL(storageRef);
+  
     Alert.alert("Photo uploaded!");
-    setImage(null);
+    return downloadURL; // Return the download URL instead of setting state
   } catch (error) {
     console.error(error);
-    setUploading(false);
+    return null; // Return null on failure
   }
 };
 
