@@ -22,7 +22,7 @@ const UploadMedia = () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: null, // Remove or set aspect to null to prevent cropping
+        aspect: null, 
         quality: 1,
       });
 
@@ -56,8 +56,7 @@ const UploadMedia = () => {
       });
 
       const filename = image.substring(image.lastIndexOf("/") + 1);
-      const storageRef = ref(storage, filename);
-      // const ref = firebase.storage().ref().child(filename);
+      const storageRef = ref(storage, filename); // Corrected line
 
       await uploadBytes(storageRef, blob);
       setUploading(false);
@@ -71,16 +70,22 @@ const UploadMedia = () => {
 
   return (
     <View style={styles.container}>
+       {image && (
+        <View style={styles.previewContainer}>
+          <Image source={{ uri: image }} style={styles.previewImage} />
+        </View>
+      )}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <TouchableOpacity style={styles.smallButton} onPress={pickImage}>
           <Text style={styles.buttonText}>Pick Image</Text>
         </TouchableOpacity>
         {image && (
-          <TouchableOpacity style={styles.button} onPress={uploadMedia}>
+          <TouchableOpacity style={styles.smallButton} onPress={uploadMedia}>
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
         )}
       </View>
+     
     </View>
   );
 };
@@ -99,16 +104,28 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "100%",
   },
-  button: {
+  smallButton: {
     backgroundColor: "#D76778",
     padding: 10,
     marginVertical: 10,
-    width: 150,
+    width: 120, 
     alignItems: "center",
   },
   buttonText: {
     color: "white",
     fontSize: 16,
     textAlign: "center",
+  },
+  previewContainer: {
+    marginBottom: 5,
+    marginTop: 5,
+    borderWidth: 1,
+    borderColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  previewImage: {
+    width: 200, 
+    height: 200, 
   },
 });
