@@ -9,8 +9,9 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { firebase } from "../services/config";
+import { firebase, storage } from "../services/config";
 import * as FileSystem from "expo-file-system";
+import { ref, uploadBytes } from "firebase/storage";
 
 const UploadMedia = () => {
   const [image, setImage] = useState(null);
@@ -55,9 +56,10 @@ const UploadMedia = () => {
       });
 
       const filename = image.substring(image.lastIndexOf("/") + 1);
-      const ref = firebase.storage().ref().child(filename);
+      const storageRef = ref(storage, filename);
+      // const ref = firebase.storage().ref().child(filename);
 
-      await ref.put(blob);
+      await uploadBytes(storageRef, blob);
       setUploading(false);
       Alert.alert("Photo uploaded!");
       setImage(null);
