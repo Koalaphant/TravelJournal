@@ -8,8 +8,8 @@ const Header = () => {
     <>
       <View style={styles.container}>
         <Image
-          source={require("../assets/Travelog.png")}
-          style={{ width: 250, height: 50, resizeMode: "contain" }}
+         source={require("../assets/traveLogo.png")}
+         style={{ width: 400, height: 150, resizeMode: "contain" }}
         />
       </View>
     </>
