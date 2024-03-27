@@ -1,15 +1,16 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/config.js";
+import { useNavigation } from "@react-navigation/native";
 
 const JournalEntriesScreen = () => {
   const [journalEntries, setJournalEntries] = useState([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     const fetchJournalEntries = async () => {
       try {
-        const journalEntriesRef = collection(db, "journalentry");
+        const journalEntriesRef = collection(db, "Traveller2", "England", "Trip1");
         const querySnapshot = await getDocs(journalEntriesRef);
 
         // Iterate over documents in the subcollection
@@ -37,10 +38,9 @@ const JournalEntriesScreen = () => {
       <ScrollView style={styles.container}>
         {journalEntries.map((entry) => (
           <View key={entry.id} style={[styles.box1, styles.box]}>
-            <Text>{entry.title}</Text>
-            <Text>{entry.location}</Text>
-            <Text>{entry.rating}</Text>
-            <Text>{entry.journalentry}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("IndividualEntry")}>
+                <Text>{entry.title}</Text>
+                </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   box: {
-    height: 30,
+    height: 40,
     margin: 50,
   },
   box1: {
