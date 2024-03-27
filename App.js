@@ -9,6 +9,7 @@ import Gallery from "./components/Gallery";
 import Login from "./screens/Login";
 import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
+import IndividualEntry from "./screens/IndividualEntry";
 
 
 
@@ -57,6 +58,12 @@ const App = () => {
             <Stack.Screen
               name="Gallery"
               component={Gallery}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="IndividualEntry"
+              component={IndividualEntry}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
