@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, params } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { useNavigation } from "@react-navigation/native";
@@ -38,7 +38,7 @@ const JournalEntriesScreen = () => {
       <ScrollView style={styles.container}>
         {journalEntries.map((entry) => (
           <View key={entry.id} style={[styles.box1, styles.box]}>
-            <TouchableOpacity onPress={() => navigation.navigate("IndividualEntry")}>
+            <TouchableOpacity onPress={() => navigation.navigate("IndividualEntry", {params:entry.id})}>
                 <Text>{entry.title}</Text>
                 </TouchableOpacity>
           </View>
