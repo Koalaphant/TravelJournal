@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import { getDoc,doc, collection } from "firebase/firestore";
 import { db } from "../services/config.js";
 
-const IndividualEntry = () => {
+const IndividualEntry = ({route}) => {
   const [journal, setJournal] = useState({});
-
+  const entry = route.params.params
+    console.log(entry, " <<PROPS");
   useEffect(() => {
-  getDoc(doc(db, "Traveller2", 'France', 'Trip1', 'entry1')).then((data) =>{
+  getDoc(doc(db, "Traveller2", 'England', 'Trip1', entry)).then((data) =>{
     if(data.exists()){
         setJournal(data.data())
     }
