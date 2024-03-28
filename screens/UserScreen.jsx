@@ -18,6 +18,7 @@ const UserScreen = () => {
   const [displayName, setDisplayName] = useState(null)
   const [number, setNumber] = useState(null)
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null)
   const [uploading, setUploading] = useState(false);
 
 const onChangeName = (inputText) => {
@@ -27,19 +28,30 @@ const onChangeName = (inputText) => {
 const onChangeNumber = (inputText) => {
   setNumber(inputText)
 }
-const handleImageSelected = async (imageUri) => {
-  const imageUri = await pickImage();
-  if (imageUri) {
-    setImage(imageUri); 
-    const uploadedImageUrl = await uploadImage(imageUri);
-    
+const handleImageSelected = async () => {
+  try {
+    const imageUri = await pickImage();
+    if (!imageUri) {
+      Alert.alert("Error", "No image was selected.");
+      return; // Exit the function if no image was selected
+    }
+    setImage(imageUri);
+    setUploading(true);
+    const imageUrl = await uploadImage(imageUri);
+    setImageUrl(imageUrl);
+    setUploading(false);
+  } catch (e) {
+    console.error(e); // Log the error for debugging purposes
+    Alert.alert("Error", e.message || "An unexpected error occurred. Please try again.");
+  } finally {
+    setUploading(false); // Ensure uploading is set to false in case of error or success
   }
 };
 
 const handleSubmit = async () => {
-  if(image && displayName && number){
+  if(imageUrl && displayName && number){
     setUploading(true)
-    const imageUrl = await uploadImage(image)
+    
     await updateUserProfile(displayName, number, imageUrl)
   }
   else if(!image || !displayName || !number){

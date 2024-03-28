@@ -1,4 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
+import { Alert } from "react-native";
 
 const pickImage = async () => {
   try {
