@@ -5,7 +5,10 @@ import {
   View,
   Alert,
   TextInput,
-  Button
+  Button,
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
@@ -20,6 +23,15 @@ const UserScreen = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null)
   const [uploading, setUploading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const openModal = () => {
+    setIsModalVisible(true)
+  }
+
+  const closeModal = () => {
+    setIsModalVisible(false)
+  }
 
 const onChangeName = (inputText) => {
   setDisplayName(inputText)
@@ -65,30 +77,59 @@ const handleSubmit = async () => {
       <Text style={styles.header}>Welcome User</Text>
 
     <ProfilePic image={image} onImageSelected={handleImageSelected}/>
-
-    <View style={styles.rows}>
-
-        <View style={styles.row}>
+<TouchableWithoutFeedback onPress={closeModal}>
+    <TouchableOpacity style={styles.button} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
         <MaterialCommunityIcons
-          name="account-outline"
+          name="camera-plus-outline"
           size={24}
-          color="#D76778"
+          color="black"
         />
-        <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
-        </View>
+    </TouchableOpacity>
+</TouchableWithoutFeedback>
+
+    <Modal visible={isModalVisible} transparent animationType="slide">
+      <TouchableWithoutFeedback onPress={closeModal}>
+    <View style={styles.modal_container}>
+    <View style={styles.modal}>
+      <MaterialCommunityIcons
+          name="camera-outline"
+          size={28}
+          color="black"
+          onPress={uploadImage}
+        />
+       <MaterialCommunityIcons
+          name="camera-burst"
+          size={28}
+          color="black"
+          onPress={pickImage}
+        />
+    </View>
+
+    </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+
+    <View style={styles.bottomContainer}>
+     <View style={styles.textFields}>
+      <MaterialCommunityIcons
+        name="account-outline"
+        size={24}
+        color="#D76778"
+      />
+      <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
+     </View>
 
 
-        <View style={styles.row}>
-        <MaterialCommunityIcons
-          name="phone-outline"
-          size={24}
-          color="#D76778"
-        />
-        <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
-        </View>
+     <View style={styles.textFields}>
+      <MaterialCommunityIcons
+        name="phone-outline"
+        size={24}
+        color="#D76778"
+      />
+      <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
+     </View>
       
-        <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}>
-        </Button>
+      <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}></Button>
 
     </View>  
    </View>
@@ -104,16 +145,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFEDDF",
   },
   header: {
-    marginTop: 12,
-    marginBottom: 18,
+    marginTop: 0,
+    marginBottom: 10,
     fontSize: 29,
     fontWeight: "bold",
     color: '#D76778'
   },
-  rows: {
-    marginTop: 30,
+  bottomContainer: {
+    marginTop: 5,
   },
-row: {
+textFields: {
   marginTop: 10,
   borderWidth: 2,
   borderColor: '#D76778',
@@ -136,5 +177,34 @@ input: {
   left: 0,
   position: 'absolute',
   textAlign: 'right',
+},
+button: {
+  position: "relative",
+  borderRadius: 24,
+  borderWidth: 2,
+  borderBlockColor: 'black',
+  left: 70,
+  bottom: 42,
+  alignItems: 'center',
+  backgroundColor: '#FFEDDF',
+  padding: 4
+},
+modal_container: {
+  alignItems: 'center',
+  left: 25,
+  top: 75
+},
+modal: {
+  width: 50,
+  height: 100,
+  backgroundColor: '#FFEDDF',
+  borderBlockColor: 'pink',
+  borderRadius: 24,
+  borderWidth: 0,
+  padding: 0,
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  marginLeft: 200,
+  marginTop: 240,
 }
 });
