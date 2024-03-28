@@ -11,7 +11,7 @@ import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
 import IndividualEntry from "./screens/IndividualEntry";
 
-// export const UserContext = React.createContext()
+export const UserContext = React.createContext()
 
 
 
@@ -48,7 +48,7 @@ const App = () => {
     });
   }, []);
   return (
-    // <UserContext.Provider value={user}>
+    <UserContext.Provider value={user}>
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
         <Header />
@@ -77,7 +77,7 @@ const App = () => {
 
       </SafeAreaView>
     </NavigationContainer>
-    // </UserContext.Provider>
+     </UserContext.Provider>
   );
 };
 

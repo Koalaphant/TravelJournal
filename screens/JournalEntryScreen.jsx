@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { TouchableOpacity, Pressable } from "react-native";
 import { UserContext } from "../App.js";
-import { useContext } from "react";
+
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
