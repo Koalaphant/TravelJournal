@@ -16,6 +16,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { TouchableOpacity, Pressable } from "react-native";
 import { UserContext } from "../App.js";
+import { getFirestore } from "firebase/firestore";
 
 
 const JournalEntryScreen = () => {
@@ -25,11 +26,11 @@ const JournalEntryScreen = () => {
   const [country, setCountry] = useState("");
   const [inputPara, setInputPara] = useState("");
   const [rating, setRating] = useState(0);
-  const [locationData, setLocationData] = useState(null); // State to hold location data
+  const [locationData, setLocationData] = useState(1); // State to hold location data
   const date = new Date()
   const timestamp = date.toString()
   
-  
+  console.log(locationData.latitude);
 
 
   const handleLocationChange = (coordinate) => {
@@ -52,7 +53,8 @@ const JournalEntryScreen = () => {
         title: entryTitle,
         country: country,
         rating: rating,
-        journal_text: inputPara
+        journal_text: inputPara,
+        coordinates:{latitude:locationData.latitude,longitude:locationData.longitude}
       });
       console.log("Document successfully written!");
       setEntryTitle("");
