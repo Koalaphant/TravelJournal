@@ -1,41 +1,50 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { getDoc, doc, collection } from "firebase/firestore";
+import { View, Text, StyleSheet } from "react-native";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { UserContext } from "../App.js";
+import { useRoute } from "@react-navigation/native";
 
-const IndividualEntry = ({ route }) => {
+const IndividualEntry = () => {
   const [journal, setJournal] = useState({});
-
+  const route = useRoute();
+  const { id } = route.params;
   const user = useContext(UserContext);
 
-  console.log("This is the current user's logged in ID:" + " " + user.uid);
+  console.log("Received id:", id); // Log the received id
 
-  const entry = route.params.params;
-  console.log(entry, " <<PROPS");
   useEffect(() => {
-    getDoc(doc(db, "Traveller2", "England", "Trip1", entry))
-      .then((data) => {
-        if (data.exists()) {
-          setJournal(data.data());
+    const fetchJournalEntries = async () => {
+      try {
+        if (!user.uid || !id) return; // Make sure user UID and ID are defined
+
+        // Construct the query to filter entries based on UID and ID
+        const docRef = doc(db, "Entries", id); // Assuming id is the document ID
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists()) {
+          const journalEntryData = {
+            id: docSnapshot.id,
+            ...docSnapshot.data(),
+          };
+          setJournal(journalEntryData);
+        } else {
+          console.log("No such document!");
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+      } catch (error) {
+        console.error("Error fetching journal entry:", error);
+      }
+    };
+
+    fetchJournalEntries();
+  }, [id, user.uid]); // Include user.uid and id in the dependency array
 
   return (
     <View style={styles.wholeScreen}>
       <Text style={styles.header}>{journal.title}</Text>
       <Text style={styles.box}>Location: {journal.location}</Text>
-      <Text style={styles.box}>Details: {journal.journalentry}</Text>
+      <Text style={styles.box}>Details: {journal.journal_text}</Text>
+      <Text>{journal.date}</Text>
     </View>
   );
 };
@@ -61,9 +70,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
     borderRadius: 8,
-  },
-  box1: {
-    backgroundColor: "violet",
   },
 });
 

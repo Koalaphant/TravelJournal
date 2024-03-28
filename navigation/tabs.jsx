@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import JournalEntryScreen from "../screens/JournalEntryScreen";
 import UserScreen from "../screens/UserScreen";
-import JounralEntriesScreen from "../screens/JounralEntriesScreen";
+import JounralEntriesScreen from "../screens/JournalEntriesScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +12,7 @@ const CustomTabBarButton = ({ children, onPress }) => {
   return (
     <TouchableOpacity
       style={{
-        top: -30,
+        top: -20,
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -20,9 +20,9 @@ const CustomTabBarButton = ({ children, onPress }) => {
     >
       <View
         style={{
-          width: 70,
-          height: 70,
-          borderRadius: 35,
+          width: 90,
+          height: 90,
+          borderRadius: 50,
           backgroundColor: "#e32f45",
         }}
       >
@@ -126,37 +126,6 @@ const Tabs = () => {
                 style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
               >
                 USER
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Entries"
-        component={JounralEntriesScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                top: 3,
-              }}
-            >
-              <Image
-                source={require("../assets/home.png")}
-                resizeMode="contain"
-                style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? "#e32f45" : "#748c94",
-                  marginBottom: 2,
-                }}
-              />
-              <Text
-                style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
-              >
-                ENTRIES
               </Text>
             </View>
           ),

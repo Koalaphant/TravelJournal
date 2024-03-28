@@ -10,6 +10,7 @@ import Login from "./screens/Login";
 import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
 import IndividualEntry from "./screens/IndividualEntry";
+import JournalEntriesScreen from "./screens/JournalEntriesScreen";
 
 export const UserContext = React.createContext()
 
@@ -70,6 +71,11 @@ const App = () => {
               name="IndividualEntry"
               component={IndividualEntry}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="JournalEntriesScreen"
+              component={JournalEntriesScreen}
+              options={{headerShown: false}}
             />
           </Stack.Navigator>
         ) : (
