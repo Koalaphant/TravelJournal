@@ -8,12 +8,13 @@ import {
 import React, { useState, useEffect, useContext } from "react";
 import { getDoc, doc, collection } from "firebase/firestore";
 import { db } from "../services/config.js";
-import { UserContext } from "../App.js";
+import { FIREBASE_AUTH } from "../services/config";
+// import { UserContext } from "../App.js";
 
 const IndividualEntry = ({ route }) => {
   const [journal, setJournal] = useState({});
 
-  const user = useContext(UserContext);
+  const user = FIREBASE_AUTH.currentUser;
 
   console.log("This is the current user's logged in ID:" + " " + user.uid);
 

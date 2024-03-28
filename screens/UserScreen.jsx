@@ -24,7 +24,7 @@ const UserScreen = () => {
   const [imageUrl, setImageUrl] = useState(null)
   const [uploading, setUploading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false)
-
+  const user = FIREBASE_AUTH.currentUser;
   const openModal = () => {
     setIsModalVisible(true)
   }
@@ -74,7 +74,7 @@ const handleSubmit = async () => {
 
   return (
    <View style={styles.container}>
-      <Text style={styles.header}>Welcome User</Text>
+      <Text style={styles.header}>Welcome {user.displayName ? user.displayName : user.email}</Text>
 
     <ProfilePic image={image} onImageSelected={handleImageSelected}/>
 <TouchableWithoutFeedback onPress={closeModal}>
