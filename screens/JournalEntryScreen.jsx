@@ -25,6 +25,12 @@ const JournalEntryScreen = () => {
     console.log("New coordinate: <<< IN THE JOURNAL ENTRY", coordinate); // Log the coordinates
   };
 
+  // Function to log the rating
+  const handleRatingChange = (selectedRating) => {
+    setRating(selectedRating);
+    console.log("Selected Rating:", selectedRating);
+  };
+
   return (
     <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Start your journey here...</Text>
@@ -34,7 +40,8 @@ const JournalEntryScreen = () => {
         onChangeText={setInputPara}
       />
       <View style={styles.starContainer}>
-        <Star rating={rating} setRating={setRating} />
+        {/* Pass handleRatingChange function to the Star component */}
+        <Star rating={rating} setRating={handleRatingChange} />
       </View>
       <View style={styles.buttonLayout}>
         <TouchableOpacity style={styles.buttons}>
