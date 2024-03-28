@@ -18,60 +18,89 @@ const JournalEntryScreen = () => {
 
   const [inputPara, setInputPara] = useState("");
   const [rating, setRating] = useState(0);
+  const [locationData, setLocationData] = useState(null); // State to hold location data
+
+  const handleLocationChange = (coordinate) => {
+    setLocationData(coordinate); // Update location data state
+    console.log("New coordinate: <<< IN THE JOURNAL ENTRY", coordinate); // Log the coordinates
+  };
 
   return (
-    <>
-      <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
-        <>
-          <Text style={styles.title}>Start your journey here...</Text>
-
-          <TextInput
-            multiline={true}
-            style={styles.intro}
-            onChangeText={setInputPara}
-          ></TextInput>
-
-          <View style={styles.starContainer}>
-            <Star rating={rating} setRating={setRating} />
-          </View>
-
-          <View style={styles.buttonLayout}>
-            <TouchableOpacity style={styles.buttons}>
-              <Text style={styles.buttonText}>Submit</Text>
-              <Image
-                source={require("../assets/left-arrow.png")}
-                style={styles.buttonImg}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate("Gallery")}
-            >
-              <Text style={styles.buttonText}>Take photo</Text>
-              <Image
-                source={require("../assets/gallery.png")}
-                style={styles.buttonImg}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View>
-            <UploadMedia />
-          </View>
-
-          <View>
-            <MapSection />
-          </View>
-        </>
-      </ScrollView>
-    </>
+    <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
+      <Text style={styles.title}>Start your journey here...</Text>
+      <TextInput
+        multiline={true}
+        style={styles.intro}
+        onChangeText={setInputPara}
+      />
+      <View style={styles.starContainer}>
+        <Star rating={rating} setRating={setRating} />
+      </View>
+      <View style={styles.buttonLayout}>
+        <TouchableOpacity style={styles.buttons}>
+          <Text style={styles.buttonText}>Submit</Text>
+          <Image
+            source={require("../assets/left-arrow.png")}
+            style={styles.buttonImg}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => navigation.navigate("Gallery")}
+        >
+          <Text style={styles.buttonText}>Take photo</Text>
+          <Image
+            source={require("../assets/gallery.png")}
+            style={styles.buttonImg}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <UploadMedia />
+      </View>
+      <View style={styles.mapContainer}>
+        {/* Pass the function handleLocationChange as a prop */}
+        <MapSection onLocationChange={handleLocationChange} />
+      </View>
+      {/* Display coordinates */}
+      {locationData && (
+        <View style={styles.coordinatesContainer}>
+          <Text style={styles.coordinatesText}>
+            Latitude: {locationData.latitude}
+          </Text>
+          <Text style={styles.coordinatesText}>
+            Longitude: {locationData.longitude}
+          </Text>
+        </View>
+      )}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   home: {
     backgroundColor: "#FFEDDF",
+  },
+  mapContainer: {
+    marginBottom: 500,
+  },
+  coordinatesContainer: {
+    backgroundColor: "#ffffff",
+    alignSelf: "center",
+    color: "#D76778",
+    fontSize: 15,
+    marginHorizontal: 12,
+    marginVertical: 10,
+    borderRadius: 12,
+    padding: 10,
+    textAlign: "left",
+    borderColor: "#D76778",
+    borderWidth: 2,
+    width: "80%",
+  },
+  coordinatesText: {
+    fontSize: 16,
+    color: "#D76778",
   },
   starContainer: {
     flexDirection: "row",
@@ -114,6 +143,9 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     borderRadius: 4,
     alignSelf: "center",
+    alignItems: "center",
+    paddingVertical: 3,
+    paddingHorizontal: 10,
   },
   buttonText: {
     fontSize: 20,
@@ -122,13 +154,7 @@ const styles = StyleSheet.create({
   buttonImg: {
     width: 40,
     height: 40,
-  },
-  mainArrow: {
-    width: 40,
-    height: 40,
-    marginLeft: 20,
-    backgroundColor: "#D76778",
-    borderRadius: 20,
+    marginLeft: 10,
   },
 });
 
