@@ -1,24 +1,36 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
   Image,
   ScrollView,
   TextInput,
+  Button
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
 import Star from "../components/Star";
 import UploadMedia from "../components/UploadMedia";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../services/config.js";
+import { TouchableOpacity, Pressable } from "react-native";
+import { UserContext } from "../App.js";
+
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
-
+  const user = useContext(UserContext);
+  const [entryTitle, setEntryTitle] = useState("");
+  const [country, setCountry] = useState("");
   const [inputPara, setInputPara] = useState("");
   const [rating, setRating] = useState(0);
   const [locationData, setLocationData] = useState(null); // State to hold location data
+  const date = new Date()
+  const timestamp = date.toString()
+  
+  
+
 
   const handleLocationChange = (coordinate) => {
     setLocationData(coordinate); // Update location data state
@@ -28,12 +40,38 @@ const JournalEntryScreen = () => {
   // Function to log the rating
   const handleRatingChange = (selectedRating) => {
     setRating(selectedRating);
-    console.log("Selected Rating:", selectedRating);
   };
+
+  
+  // ON SUBMIT
+  
+  const handleSubmit = async () => {
+    try {
+      await setDoc(doc(db, "Entries", timestamp), {
+        UID: user.uid,
+        title: entryTitle,
+        country: country,
+        rating: rating,
+        journal_text: inputPara
+      });
+      console.log("Document successfully written!");
+      setEntryTitle("");
+      setCountry("");
+      setInputPara("");
+      setRating(0);
+     
+    } catch (error) {
+      console.error("Error writing document: ", error);
+      
+    }
+  }
+
 
   return (
     <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>Start your journey here...</Text>
+      <Text style={styles.title}>Add a journal entry</Text>
+      <TextInput style={styles.entrytitle} placeholder="Title for your entry" onChangeText={setEntryTitle}></TextInput>
+      <TextInput style={styles.entrytitle} placeholder="Country" onChangeText={setCountry}></TextInput>
       <TextInput
         multiline={true}
         style={styles.intro}
@@ -44,13 +82,14 @@ const JournalEntryScreen = () => {
         <Star rating={rating} setRating={handleRatingChange} />
       </View>
       <View style={styles.buttonLayout}>
-        <TouchableOpacity style={styles.buttons}>
+          <Pressable style={styles.buttons} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
           <Image
             source={require("../assets/left-arrow.png")}
             style={styles.buttonImg}
           />
-        </TouchableOpacity>
+          </Pressable>
+        
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => navigation.navigate("Gallery")}
@@ -137,6 +176,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: "80%",
     height: "20%",
+  },
+  entrytitle: {
+    backgroundColor: "#ffffff",
+    alignSelf: "center",
+    color: "#D76778",
+    fontSize: 15,
+    marginHorizontal: 12,
+    marginVertical: 10,
+    borderRadius: 12,
+    padding: 10,
+    textAlign: "left",
+    borderColor: "#D76778",
+    borderWidth: 2,
+    width: "70%",
+    height: 40,
   },
   buttonLayout: {
     flexDirection: "row",

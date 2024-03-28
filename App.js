@@ -45,7 +45,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log(user.uid, '<<<<User');
       setUser(user);
     });
   }, []);
@@ -84,7 +83,7 @@ const App = () => {
 
       </SafeAreaView>
     </NavigationContainer>
-    </UserContext.Provider>
+     </UserContext.Provider>
   );
 };
 

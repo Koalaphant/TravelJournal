@@ -2,14 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../services/config.js";
+
 import { UserContext } from "../App.js";
 import { useRoute } from "@react-navigation/native";
 
+
 const IndividualEntry = () => {
   const [journal, setJournal] = useState({});
+
   const route = useRoute();
   const { id } = route.params;
   const user = useContext(UserContext);
+
 
   console.log("Received id:", id); // Log the received id
 
