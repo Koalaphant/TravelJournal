@@ -12,81 +12,23 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker"
 import placeholder from '../assets/user.png'
-import pickImage from "../utils/pickimage";
-const ProfilePic = ({uri, onPress, onButtonPress, ...props}) => {
-  const [image, setImage] = useState(null)
-  const [isModalVisible, setIsModalVisible] = useState(false)
 
 
-  const uploadImage = async () => {
-    try {
-        await ImagePicker.requestCameraPermissionsAsync();
-        let result = await ImagePicker.launchCameraAsync({
-            cameraType: ImagePicker.CameraType.front,
-            allowsEditing: true,
-            aspect: [1,1],
-            quality: 1,
-        })
+const ProfilePic = ({uri, image, onImageSelected, ...props}) => {
 
-    if (!result.canceled) {
-        await saveImage(result.assets[0].uri)
-    }
-    } catch(error) {
-        alert("Error uploading image", error)
-    }
-  };
 
-  const saveImage = async (image) => {
-    try {
-        setImage(image)
-        alert('Profile picture uploaded!')
-        setIsModalVisible(false)
-    } catch (error) {
-        throw(error)
-    }
-  }
 
-  const openModal = () => {
-    setIsModalVisible(true)
-  }
-
-  const closeModal = () => {
-    setIsModalVisible(false)
-  }
-  
   return (
     <View>
       <Image
         style={styles.profilePic}
+        title="profilePicture"
         source={image ? { uri: image } : placeholder}
       />
 
-    <Modal visible={isModalVisible} transparent animationType="slide">
-    <TouchableWithoutFeedback onPress={closeModal}>
-    <View style={styles.modal_container}>
-    <TouchableWithoutFeedback>
-      <View style={styles.modal}>
-      <MaterialCommunityIcons
-          name="camera-outline"
-          size={28}
-          color="black"
-          onPress={uploadImage}
-        />
-      <MaterialCommunityIcons
-          name="camera-burst"
-          size={28}
-          color="black"
-          onPress={pickImage}
-        />
-      </View>
-    </TouchableWithoutFeedback>
-    </View>
-    </TouchableWithoutFeedback>
-    </Modal>
 
+      <TouchableOpacity style={styles.button} onPress={onImageSelected}>
 
-
-      <TouchableOpacity style={styles.button} onPress={openModal}>
         <MaterialCommunityIcons
           name="camera-plus-outline"
           size={24}

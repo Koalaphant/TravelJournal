@@ -9,22 +9,31 @@ import {
   Image,
 } from "react-native";
 import pickImage from "../utils/pickimage";
-import uploadimage from "../utils/uploadimage";
 import uploadImage from "../utils/uploadimage";
 
 const UploadMedia = () => {
 
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const handleImagePick = async () => {
+    const pickedImage = await pickImage();
+    if (pickedImage) {
+      setImage(pickedImage);
+    }
+  };
+  const handleImageUpload = async () => {
+    const imageUrl = await uploadImage(image, setUploading, setImage);
+   
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.smallButton} onPress={() => pickImage(setImage)}>
+        <TouchableOpacity style={styles.smallButton} onPress={handleImagePick}>
           <Text style={styles.buttonText}>Pick Image</Text>
         </TouchableOpacity>
         {image && (
-          <TouchableOpacity style={styles.smallButton} onPress={() => uploadImage(image, setUploading, setImage)}>
+          <TouchableOpacity style={styles.smallButton} onPress={handleImageUpload}>
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
         )}

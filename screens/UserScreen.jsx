@@ -5,41 +5,66 @@ import {
   View,
   Alert,
   TextInput,
+  Button
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
+import { FIREBASE_AUTH } from "../services/config";
+import { updateUserProfile } from "../services/updateUserProfile";
+import pickImage from "../utils/pickimage";
+import uploadImage from "../utils/uploadimage";
 
 const UserScreen = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [number, setNumber] = useState('')
+  const [displayName, setDisplayName] = useState(null)
+  const [number, setNumber] = useState(null)
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null)
+  const [uploading, setUploading] = useState(false);
 
 const onChangeName = (inputText) => {
-  setName(inputText)
+  setDisplayName(inputText)
 }
-const onChangeEmail = (inputText) => {
-  setEmail(inputText)
-}
+
 const onChangeNumber = (inputText) => {
   setNumber(inputText)
 }
+const handleImageSelected = async () => {
+  try {
+    const imageUri = await pickImage();
+    if (!imageUri) {
+      Alert.alert("Error", "No image was selected.");
+      return; // Exit the function if no image was selected
+    }
+    setImage(imageUri);
+    setUploading(true);
+    const imageUrl = await uploadImage(imageUri);
+    setImageUrl(imageUrl);
+    setUploading(false);
+  } catch (e) {
+    console.error(e); // Log the error for debugging purposes
+    Alert.alert("Error", e.message || "An unexpected error occurred. Please try again.");
+  } finally {
+    setUploading(false); // Ensure uploading is set to false in case of error or success
+  }
+};
 
-const handleName = (name) => {
-  let regex =  /^[a-zA-Z]{2,}$/g
-  if (/[0-9]/.test(name)) {
-    Alert.alert('error', 'skd')
+const handleSubmit = async () => {
+  if(imageUrl && displayName && number){
+    setUploading(true)
+    
+    await updateUserProfile(displayName, number, imageUrl)
+  }
+  else if(!image || !displayName || !number){
+    Alert.alert("Error", "Please fill all the fields")
   }
 }
-// const handleEmail = (email) => {
-//   let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-//   return regex.text(email)
-// }
-// const handleNumber = () => {}
+
+
   return (
    <View style={styles.container}>
       <Text style={styles.header}>Welcome User</Text>
 
-    <ProfilePic />
+    <ProfilePic image={image} onImageSelected={handleImageSelected}/>
 
     <View style={styles.rows}>
 
@@ -49,17 +74,9 @@ const handleName = (name) => {
           size={24}
           color="#D76778"
         />
-        <TextInput style={styles.input} value={name} placeholder='Enter name' onChangeText={onChangeName} onBlur={handleName}></TextInput>
+        <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
         </View>
 
-        <View style={styles.row}>
-        <MaterialCommunityIcons
-          name="email-outline"
-          size={24}
-          color="#D76778"
-        />
-        <TextInput style={styles.input} value={email} placeholder='Enter email' onChangeText={onChangeEmail}></TextInput>
-        </View>
 
         <View style={styles.row}>
         <MaterialCommunityIcons
@@ -69,6 +86,9 @@ const handleName = (name) => {
         />
         <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
         </View>
+      
+        <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}>
+        </Button>
 
     </View>  
    </View>
@@ -94,6 +114,15 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 row: {
+  marginTop: 10,
+  borderWidth: 2,
+  borderColor: '#D76778',
+  borderRadius: 20,
+  paddingRight: 200,
+  padding: 8,
+},
+button: {
+  position: 'relative',
   marginTop: 10,
   borderWidth: 2,
   borderColor: '#D76778',
