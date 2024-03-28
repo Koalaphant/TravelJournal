@@ -5,14 +5,17 @@ import {
   View,
   Image,
   Alert,
+  Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker"
 import placeholder from '../assets/user.png'
-
+import pickImage from "../utils/pickimage";
 const ProfilePic = ({uri, onPress, onButtonPress, ...props}) => {
   const [image, setImage] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
 
   const uploadImage = async () => {
@@ -37,11 +40,20 @@ const ProfilePic = ({uri, onPress, onButtonPress, ...props}) => {
     try {
         setImage(image)
         alert('Profile picture uploaded!')
+        setIsModalVisible(false)
     } catch (error) {
         throw(error)
     }
   }
 
+  const openModal = () => {
+    setIsModalVisible(true)
+  }
+
+  const closeModal = () => {
+    setIsModalVisible(false)
+  }
+  
   return (
     <View>
       <Image
@@ -49,14 +61,41 @@ const ProfilePic = ({uri, onPress, onButtonPress, ...props}) => {
         source={image ? { uri: image } : placeholder}
       />
 
-      <TouchableOpacity style={styles.button} onPress={uploadImage}>
+    <Modal visible={isModalVisible} transparent animationType="slide">
+    <TouchableWithoutFeedback onPress={closeModal}>
+    <View style={styles.modal_container}>
+    <TouchableWithoutFeedback>
+      <View style={styles.modal}>
+      <MaterialCommunityIcons
+          name="camera-outline"
+          size={28}
+          color="black"
+          onPress={uploadImage}
+        />
+      <MaterialCommunityIcons
+          name="camera-burst"
+          size={28}
+          color="black"
+          onPress={pickImage}
+        />
+      </View>
+    </TouchableWithoutFeedback>
+    </View>
+    </TouchableWithoutFeedback>
+    </Modal>
+
+
+
+      <TouchableOpacity style={styles.button} onPress={openModal}>
         <MaterialCommunityIcons
           name="camera-plus-outline"
           size={24}
           color="black"
         />
+
       </TouchableOpacity>
     </View>
+    
   );
 };
 
@@ -86,5 +125,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFEDDF',
     padding: 4
   },
-
+  modal_container: {
+    alignItems: 'center',
+    left: 25,
+  },
+  modal: {
+    width: 50,
+    height: 100,
+    backgroundColor: '#FFEDDF',
+    borderBlockColor: 'pink',
+    borderRadius: 24,
+    borderWidth: 0,
+    padding: 0,
+    // flexDirection: '',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginLeft: 200,
+    marginTop: 240,
+  }
 });
