@@ -16,6 +16,7 @@ import { FIREBASE_AUTH } from "../services/config";
 import { updateUserProfile } from "../services/updateUserProfile";
 import pickImage from "../utils/pickimage";
 import uploadImage from "../utils/uploadimage";
+import takeimage from "../utils/takeimage";
 
 const UserScreen = () => {
   const [displayName, setDisplayName] = useState(null)
@@ -95,7 +96,7 @@ const handleSubmit = async () => {
           name="camera-outline"
           size={28}
           color="black"
-          onPress={uploadImage}
+          onPress={takeimage}
         />
        <MaterialCommunityIcons
           name="camera-burst"
