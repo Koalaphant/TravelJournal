@@ -5,43 +5,18 @@ import {
   View,
   Image,
   Alert,
+  Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker"
 import placeholder from '../assets/user.png'
 
+
 const ProfilePic = ({uri, image, onImageSelected, ...props}) => {
 
 
-
-  // const uploadImage = async () => {
-  //   try {
-  //       await ImagePicker.requestCameraPermissionsAsync();
-  //       let result = await ImagePicker.launchCameraAsync({
-  //           cameraType: ImagePicker.CameraType.front,
-  //           allowsEditing: true,
-  //           aspect: [1,1],
-  //           quality: 1,
-  //       })
-
-  //   if (!result.canceled) {
-  //       await saveImage(result.assets[0].uri)
-  //   }
-  //   } catch(error) {
-  //       alert("Error uploading image", error)
-  //   }
-  // };
-
-  // const saveImage = async (image) => {
-  //   try {
-  //       setImage(image);
-  //       alert('Profile picture uploaded!');
-  //       onImageSelected(image); // Pass the selected image URI back to the parent component
-  //   } catch (error) {
-  //       throw(error);
-  //   }
-  // }
 
   return (
     <View>
@@ -51,14 +26,18 @@ const ProfilePic = ({uri, image, onImageSelected, ...props}) => {
         source={image ? { uri: image } : placeholder}
       />
 
+
       <TouchableOpacity style={styles.button} onPress={onImageSelected}>
+
         <MaterialCommunityIcons
           name="camera-plus-outline"
           size={24}
           color="black"
         />
+
       </TouchableOpacity>
     </View>
+    
   );
 };
 
@@ -88,5 +67,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFEDDF',
     padding: 4
   },
-
+  modal_container: {
+    alignItems: 'center',
+    left: 25,
+  },
+  modal: {
+    width: 50,
+    height: 100,
+    backgroundColor: '#FFEDDF',
+    borderBlockColor: 'pink',
+    borderRadius: 24,
+    borderWidth: 0,
+    padding: 0,
+    // flexDirection: '',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginLeft: 200,
+    marginTop: 240,
+  }
 });

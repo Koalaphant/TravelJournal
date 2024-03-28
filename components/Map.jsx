@@ -1,60 +1,71 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import * as Location from 'expo-location'; // Import the Location module from expo-location
+// MapSection.jsx
 
-const MapSection = () => {
+import React, { useState } from "react";
+import { View, StyleSheet, Button } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import * as Location from "expo-location";
+
+const MapSection = ({ onLocationChange }) => {
   const [region, setRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  const [marker, setMarker] = useState(null); // State to manage the single marker
+  const [marker, setMarker] = useState(null);
 
   const getLocationData = async () => {
     try {
-      const { status } = await Location.requestForegroundPermissionsAsync(); // Request permission to access location
-      if (status !== 'granted') {
-        console.error('Permission to access location was denied');
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.error("Permission to access location was denied");
         return;
       }
-      const location = await Location.getCurrentPositionAsync({}); // Get the current location
-      setRegion({ // Update the region with the user's current location
+      const location = await Location.getCurrentPositionAsync({});
+      setRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.01, // Adjusted for very zoomed in view
-        longitudeDelta: 0.01, // Adjusted for very zoomed in view
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       });
-      setMarker({ // Set marker at the user's current location
-        id: 1, // Set a fixed ID for the marker
+      const newMarker = {
+        id: 1,
         coordinate: {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         },
-      });
+      };
+      setMarker(newMarker);
+      // Pass the location data to the parent component
+      onLocationChange(newMarker.coordinate);
     } catch (error) {
-      console.error('Error getting location:', error);
+      console.error("Error getting location:", error);
     }
   };
 
   const handleMapLongPress = (event) => {
     if (!marker) {
       const newMarker = {
-        id: 1, // Set a fixed ID for the marker
+        id: 1,
         coordinate: event.nativeEvent.coordinate,
       };
-      setMarker(newMarker); // Set marker state to the new marker
+      setMarker(newMarker);
+      // Pass the location data to the parent component
+      onLocationChange(newMarker.coordinate);
     }
   };
 
   const handleMarkerDragEnd = (event) => {
     const newCoordinate = event.nativeEvent.coordinate;
-    setMarker({ ...marker, coordinate: newCoordinate }); // Update marker coordinates when marker is dragged
+    setMarker({ ...marker, coordinate: newCoordinate });
+    // Pass the location data to the parent component
+    onLocationChange(newCoordinate);
   };
 
   const removeMarker = () => {
-    setMarker(null); // Remove the marker
+    setMarker(null);
+    // Pass null to indicate removal of marker
+    onLocationChange(null);
   };
 
   return (
@@ -62,21 +73,25 @@ const MapSection = () => {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        region={region} // Set the region of the map to the state variable
-        onLongPress={handleMapLongPress} // Handle long press events on the map
+        region={region}
+        onLongPress={handleMapLongPress}
       >
         {marker && (
           <Marker
             key={marker.id}
             coordinate={marker.coordinate}
             draggable
-            onDragEnd={handleMarkerDragEnd} // Handle marker drag events
+            onDragEnd={handleMarkerDragEnd}
           />
         )}
       </MapView>
       <View style={styles.buttonLayout}>
-        <Button title='Get Current Location' onPress={getLocationData} />
-        <Button title='Remove Marker' onPress={removeMarker} disabled={!marker} />
+        <Button title="Get Current Location" onPress={getLocationData} />
+        <Button
+          title="Remove Marker"
+          onPress={removeMarker}
+          disabled={!marker}
+        />
       </View>
     </View>
   );
@@ -85,24 +100,22 @@ const MapSection = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 90,
-    marginBottom: 90,
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
   },
   map: {
-    width: '100%',
+    width: "100%",
     height: 300,
   },
   buttonLayout: {
-    backgroundColor: 'pink',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    padding: 10
-  }
+    backgroundColor: "pink",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    padding: 10,
+  },
 });
 
 export default MapSection;

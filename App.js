@@ -9,6 +9,11 @@ import Gallery from "./components/Gallery";
 import Login from "./screens/Login";
 import { FIREBASE_AUTH } from "./services/config";
 import { onAuthStateChanged } from "firebase/auth";
+import IndividualEntry from "./screens/IndividualEntry";
+
+export const UserContext = React.createContext()
+
+
 
 
 
@@ -39,11 +44,12 @@ const App = () => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log(user);
+      console.log(user.uid, '<<<<User');
       setUser(user);
     });
   }, []);
   return (
+    <UserContext.Provider value={user}>
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
         <Header />
@@ -59,6 +65,12 @@ const App = () => {
               component={Gallery}
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="IndividualEntry"
+              component={IndividualEntry}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : (
           <LoginLayout />
@@ -66,6 +78,7 @@ const App = () => {
 
       </SafeAreaView>
     </NavigationContainer>
+    </UserContext.Provider>
   );
 };
 
