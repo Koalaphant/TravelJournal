@@ -1,26 +1,28 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { UserContext } from "../App.js";
+import { useNavigation } from "@react-navigation/native";
 
 const CountriesList = () => {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
 
-  const user = useContext(UserContext); // Access user context
+  const user = useContext(UserContext);
+  const navigation = useNavigation();
 
   const [entries, setEntries] = useState([]);
 
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        if (!user) return; // If user context is not available, return
+        if (!user) return;
 
         const entriesRef = collection(db, "Entries");
-        const q = query(entriesRef, where("UID", "==", user.uid)); // Filter entries by user's UID
+        const q = query(entriesRef, where("UID", "==", user.uid));
         const querySnapshot = await getDocs(q);
 
         const entriesData = querySnapshot.docs.map((doc) => ({
@@ -41,13 +43,28 @@ const CountriesList = () => {
     return null;
   }
 
+  // Filter unique countries
+  const uniqueCountries = [...new Set(entries.map((entry) => entry.country))];
+
   return (
     <View style={styles.container}>
-      {entries.map((item, index) => (
-        <View key={index} style={styles.itemContainer}>
-          <Text style={styles.text}>{item.country}</Text>
-        </View>
-      ))}
+      {uniqueCountries.map((country, index) => {
+        const entry = entries.find((entry) => entry.country === country);
+        return (
+          <TouchableOpacity
+            key={index}
+            style={styles.itemContainer}
+            onPress={() =>
+              navigation.navigate("JournalEntriesScreen", {
+                country: entry.country,
+              })
+            }
+          >
+            <Text style={styles.text}>{entry.country}</Text>
+            <Button title="View Entry" />
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };
@@ -70,7 +87,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: "100%",
-    height: 50,
+    height: 100,
     justifyContent: "center",
     backgroundColor: "#fff",
   },
