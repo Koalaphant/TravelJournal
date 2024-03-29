@@ -46,8 +46,8 @@ const IndividualEntry = () => {
   return (
     <View style={styles.wholeScreen}>
       <Text style={styles.header}>{journal.title}</Text>
-      <Text style={styles.box}>Location: {journal.location}</Text>
-      <Text style={styles.box}>Details: {journal.journal_text}</Text>
+      <Text style={styles.box}>Location: {journal.country}</Text>
+      <Text style={styles.box}>{journal.journal_text}</Text>
       <Text>{journal.date}</Text>
     </View>
   );
@@ -56,6 +56,7 @@ const IndividualEntry = () => {
 const styles = StyleSheet.create({
   wholeScreen: {
     backgroundColor: "#FFEDDF",
+    flex:1
   },
   header: {
     backgroundColor: "#D76778",

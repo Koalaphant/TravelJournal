@@ -23,7 +23,7 @@ const CustomTabBarButton = ({ children, onPress }) => {
           width: 90,
           height: 90,
           borderRadius: 50,
-          backgroundColor: "#e32f45",
+          backgroundColor: "#D76778",
         }}
       >
         {children}
@@ -69,12 +69,12 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? "#e32f45" : "#748c94",
+                  tintColor: focused ? "#D76778" : "#748c94",
                   marginBottom: 2,
                 }}
               />
               <Text
-                style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
+                style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
               >
                 HOME
               </Text>
@@ -118,12 +118,12 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? "#e32f45" : "#748c94",
+                  tintColor: focused ? "#D76778" : "#748c94",
                   marginBottom: 2,
                 }}
               />
               <Text
-                style={{ color: focused ? "#e32f45" : "#748c94", fontSize: 12 }}
+                style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
               >
                 USER
               </Text>

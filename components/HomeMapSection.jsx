@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   tripView: {
     fontSize: 20,
+    fontWeight: 'bold',
     color: "#D86779",
   },
 });
