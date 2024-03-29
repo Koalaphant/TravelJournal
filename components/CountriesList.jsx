@@ -61,7 +61,7 @@ const CountriesList = () => {
             }
           >
             <Text style={styles.text}>{entry.country}</Text>
-            <Button title="View Entry" />
+            <Button color='#D76778' title="View Entries" />
           </TouchableOpacity>
         );
       })}

@@ -75,7 +75,8 @@ const handleSubmit = async () => {
 
   return (
    <View style={styles.container}>
-      <Text style={styles.header}>Welcome {user.displayName ? user.displayName : user.email}</Text>
+      <Text style={styles.header}>Welcome</Text>
+      <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
 
     <ProfilePic image={image} onImageSelected={handleImageSelected}/>
 <TouchableWithoutFeedback onPress={closeModal}>
@@ -148,7 +149,14 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 0,
     marginBottom: 10,
-    fontSize: 29,
+    fontSize: 35,
+    fontWeight: "bold",
+    color: '#D76778'
+  },
+  username: {
+    marginTop: 0,
+    marginBottom: 10,
+    fontSize: 20,
     fontWeight: "bold",
     color: '#D76778'
   },

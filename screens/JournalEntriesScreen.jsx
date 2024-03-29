@@ -56,16 +56,15 @@ const JournalEntriesScreen = () => {
 
   return (
     <View style={styles.wholeScreen}>
-      <Text style={styles.header}>Journal entries</Text>
-      <ScrollView style={styles.container}>
+      <ScrollView>
         {journalEntries.map((entry) => (
-          <View key={entry.id} style={[styles.box1, styles.box]}>
+          <View key={entry.id} style={styles.box}>
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("IndividualEntry", { id: entry.id })
               }
             >
-              <Text>{entry.title}</Text>
+              <Text style={styles.entries}>{entry.title}</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -77,24 +76,19 @@ const JournalEntriesScreen = () => {
 const styles = StyleSheet.create({
   wholeScreen: {
     flex: 1,
-  },
-  header: {
-    backgroundColor: "grey",
-    textAlign: "center",
-    color: "white",
-    height: "10%",
-  },
-  container: {
-    backgroundColor: "#ddd",
-    flexGrow: 1,
+    backgroundColor: '#FFEDDF'
   },
   box: {
-    height: 40,
-    margin: 50,
+    backgroundColor: "#D76778",
+    borderRadius: 8,
+    margin: 20
   },
-  box1: {
-    backgroundColor: "violet",
-  },
+  entries: {
+    fontSize: 25,
+    color: '#fff',
+    padding:10,
+    textAlign: 'center'
+  }
 });
 
 export default JournalEntriesScreen;
