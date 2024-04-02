@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Button, Pressable } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+  Pressable,
+} from "react-native";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
@@ -11,7 +18,7 @@ const CountriesList = () => {
     Poppins_400Regular,
   });
 
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigation = useNavigation();
 
   const [entries, setEntries] = useState([]);
@@ -45,6 +52,7 @@ const CountriesList = () => {
 
   // Filter unique countries
   const uniqueCountries = [...new Set(entries.map((entry) => entry.country))];
+  uniqueCountries.sort();
 
   return (
     <View style={styles.container}>
@@ -97,13 +105,14 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   viewButton: {
-    backgroundColor: '#D76778',
+    backgroundColor: "#D76778",
     fontSize: 16,
     padding: 5,
     borderRadius: 5,
-    color: '#f1f1f1',
-    fontWeight: 'bold'
-  }
+    color: "#f1f1f1",
+    fontWeight: "bold",
+    marginTop: 10,
+  },
 });
 
 export default CountriesList;
