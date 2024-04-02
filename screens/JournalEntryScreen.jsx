@@ -30,7 +30,6 @@ const JournalEntryScreen = () => {
   const date = new Date()
   const timestamp = date.toString()
   
-  console.log(locationData.latitude);
 
 
   const handleLocationChange = (coordinate) => {
@@ -54,7 +53,7 @@ const JournalEntryScreen = () => {
         country: country,
         rating: rating,
         journal_text: inputPara,
-        coordinates:{latitude:locationData.latitude,longitude:locationData.longitude}
+        coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
       });
       console.log("Document successfully written!");
       setEntryTitle("");
