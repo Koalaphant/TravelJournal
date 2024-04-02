@@ -5,7 +5,7 @@ import {
   View,
   Alert,
   TextInput,
-  Button,
+  ScrollView,
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback
@@ -125,6 +125,7 @@ const handleSignOut = () => {
       </TouchableWithoutFeedback>
     </Modal>
 
+
     <View style={styles.bottomContainer}>
      <View style={styles.textFields}>
       <MaterialCommunityIcons
@@ -135,7 +136,6 @@ const handleSignOut = () => {
       <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
      </View>
 
-
      <View style={styles.textFields}>
       <MaterialCommunityIcons
         name="phone-outline"
@@ -145,9 +145,11 @@ const handleSignOut = () => {
       <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
      </View>
       
-      <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}></Button>
-
-    </View>  
+      
+    <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+      <Text style={{ color: 'white', fontSize: 16, textAlign: 'center'}}>Submit</Text>
+    </TouchableOpacity>
+    </View>
    </View>
   );
 };
@@ -160,8 +162,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFEDDF",
   },
+  scroll: {
+    flexGrow:1,
+  },
   header: {
-    marginTop: 0,
+    marginTop: -10,
     marginBottom: 10,
     fontSize: 35,
     fontWeight: "bold",
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     color: '#181818'
   },
   bottomContainer: {
-    marginTop: 5,
+    marginTop: -30
   },
 textFields: {
   marginTop: 10,
@@ -193,6 +198,13 @@ button: {
   borderRadius: 20,
   paddingRight: 200,
   padding: 8,
+},
+submitButton: {
+  backgroundColor: '#D76778',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 5,
+  marginTop: 5
 },
 input: {
   bottom: 0,
