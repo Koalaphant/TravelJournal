@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Button, Pressable } from "react-native";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
@@ -51,7 +51,7 @@ const CountriesList = () => {
       {uniqueCountries.map((country, index) => {
         const entry = entries.find((entry) => entry.country === country);
         return (
-          <TouchableOpacity
+          <Pressable
             key={index}
             style={styles.itemContainer}
             onPress={() =>
@@ -62,7 +62,7 @@ const CountriesList = () => {
           >
             <Text style={styles.text}>{entry.country}</Text>
             <Button color='#D76778' title="View Entries" />
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>
