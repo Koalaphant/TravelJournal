@@ -61,7 +61,7 @@ const CountriesList = () => {
             }
           >
             <Text style={styles.text}>{entry.country}</Text>
-            <Button color='#D76778' title="View Entries" />
+            <Text style={styles.viewButton}>View Entries</Text>
           </Pressable>
         );
       })}
@@ -96,6 +96,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#000",
   },
+  viewButton: {
+    backgroundColor: '#D76778',
+    fontSize: 16,
+    padding: 5,
+    borderRadius: 5,
+    color: '#f1f1f1',
+    fontWeight: 'bold'
+  }
 });
 
 export default CountriesList;
