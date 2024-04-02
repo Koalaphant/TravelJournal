@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   TouchableOpacity,
+  ScrollView,
   TouchableWithoutFeedback
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
@@ -47,6 +48,9 @@ const onChangeNumber = (inputText) => {
 
 const handleTakeImage = async () => {
   const takenImage = await takeImage()
+  if(!takenImage){
+    return
+  }
   setImage(takenImage)
   const imageURL = await uploadImage(takenImage)
   await updateUserPhoto(imageURL)
@@ -54,6 +58,9 @@ const handleTakeImage = async () => {
 }
 const handlePickImage = async () => {
   const pickedImage = await pickImage()
+  if(!pickedImage){
+    return
+  }
   setImage(pickedImage)
   const imageURL = await uploadImage(pickedImage)
   await updateUserPhoto(imageURL)
@@ -83,6 +90,7 @@ const handleSignOut = () => {
 
 
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
    <View style={styles.container}>
       <Button style={styles.button} title="Sign out" color="#D76778" onPress={handleSignOut}></Button>
       <Text style={styles.header}>Welcome</Text>
@@ -150,6 +158,7 @@ const handleSignOut = () => {
 
     </View>  
    </View>
+   </ScrollView>
   );
 };
 

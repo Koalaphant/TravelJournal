@@ -11,12 +11,15 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
 import Star from "../components/Star";
-import UploadMedia from "../components/UploadMedia";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { TouchableOpacity, Pressable } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import { getFirestore } from "firebase/firestore";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { pickImage} from "../utils/pickImage"
+import { takeImage} from "../utils/takeImage"
+import { uploadImage} from "../utils/uploadImage"
 
 
 const JournalEntryScreen = () => {
@@ -26,10 +29,12 @@ const JournalEntryScreen = () => {
   const [country, setCountry] = useState("");
   const [inputPara, setInputPara] = useState("");
   const [rating, setRating] = useState(0);
-  const [locationData, setLocationData] = useState(1); // State to hold location data
+  const [locationData, setLocationData] = useState(1); 
+  const [image, setImage] = useState(null)
+
   const date = new Date()
   const timestamp = date.toString()
-  
+
 
 
   const handleLocationChange = (coordinate) => {
@@ -40,20 +45,45 @@ const JournalEntryScreen = () => {
   const handleRatingChange = (selectedRating) => {
     setRating(selectedRating);
   };
-
+ const handleChoosePhoto = async () => {
+  const imageURI = await pickImage()
+  const imageURL = await uploadImage(imageURI)
+  setImage(imageURL)
+  return imageURL
+ }
+ const handleTakePhoto = async () => {
+  const imageURI = await takeImage()
+  const imageURL = await uploadImage(imageURI)
+  setImage(imageURL)
+  return imageURL
+ }
   
   // ON SUBMIT
   
   const handleSubmit = async () => {
     try {
-      await setDoc(doc(db, "Entries", timestamp), {
-        UID: user.uid,
-        title: entryTitle,
-        country: country,
-        rating: rating,
-        journal_text: inputPara,
-        coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
-      });
+
+      if(image){
+        await setDoc(doc(db, "Entries", timestamp), {
+          UID: user.uid,
+          title: entryTitle,
+          country: country,
+          rating: rating,
+          journal_text: inputPara,
+          imageURL: image,
+          coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
+        });
+      }
+      else{
+        await setDoc(doc(db, "Entries", timestamp), {
+          UID: user.uid,
+          title: entryTitle,
+          country: country,
+          rating: rating,
+          journal_text: inputPara,
+          coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
+        });
+      }
       setEntryTitle("");
       setCountry("");
       setInputPara("");
@@ -91,18 +121,21 @@ const JournalEntryScreen = () => {
         
         <TouchableOpacity
           style={styles.buttons}
-          onPress={() => navigation.navigate("Gallery")}
+          onPress={handleTakePhoto}
         >
-          <Text style={styles.buttonText}>Take photo</Text>
-          <Image
-            source={require("../assets/gallery.png")}
-            style={styles.buttonImg}
-          />
+          
+          <MaterialCommunityIcons name="camera" size={40} color="white"/>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={handleChoosePhoto}
+        >
+          
+          <MaterialCommunityIcons name="image-multiple" size={40} color="white"/>
         </TouchableOpacity>
       </View>
-      <View>
-        <UploadMedia />
-      </View>
+
       <View style={styles.mapContainer}>
         {/* Pass the function handleLocationChange as a prop */}
         <MapSection onLocationChange={handleLocationChange} />

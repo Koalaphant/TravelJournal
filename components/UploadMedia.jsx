@@ -30,11 +30,11 @@ const UploadMedia = () => {
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.smallButton} onPress={handleImagePick}>
-          <Text style={styles.buttonText}>Pick Image</Text>
+          <Text style={styles.buttonText}>Pick Ima</Text>
         </TouchableOpacity>
         {image && (
           <TouchableOpacity style={styles.smallButton} onPress={handleImageUpload}>
-            <Text style={styles.buttonText}>Upload Image</Text>
+            <Text style={styles.buttonText}>Camera</Text>
           </TouchableOpacity>
         )}
       </View>
