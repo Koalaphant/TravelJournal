@@ -62,8 +62,8 @@ const HomeMapSection = () => {
         <Marker
           key={index}
           coordinate={{
-            latitude: entry.coordinates.latitude,
-            longitude: entry.coordinates.longitude,
+            latitude: parseFloat(entry.coordinates.latitude),
+            longitude: parseFloat(entry.coordinates.longitude),
           }}
           title={entry.title}
         >
