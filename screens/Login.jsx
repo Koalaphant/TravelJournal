@@ -1,43 +1,27 @@
 import { View, Text, StyleSheet, Button, TextInput, ActivityIndicator, KeyboardAvoidingView} from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FIREBASE_AUTH } from "../services/config";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-const auth = FIREBASE_AUTH;
+
+import { UserContext } from "../contexts/UserContext"
+import { signIn, signUp, signOut } from "../services/signinandout"
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const {user, setUser} = useContext(UserContext)
+ 
+  const handleSignIn = async () => {
+    const user = await signIn(email, password)
+    setUser(user)
+  }
+  const handleSignUp = async () => {
+    const user = await signUp(email, password)
+    setUser(user)
+  }
 
-  const auth = FIREBASE_AUTH;
-  const signIn = async () => {
-    setLoading(true)
   
-    try{
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response)
-    }catch(error){
-      console.log(error)
-    } finally{
-      setLoading(false)
-    }
-  }
-  
-  const signUp = async () => {
-    setLoading(true)
-  
-    try{
-      const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response)
-      alert('Check your email')
-    }catch(error){
-      console.log(error)
-      alert('Sign up failed')
-    } finally{
-      setLoading(false)
-    }
-  }
   
   return (
     <View style = {styles.container}>
@@ -47,8 +31,8 @@ const Login = () => {
       { loading ? <ActivityIndicator size="large" color='#0000ff'/>
       : (
       <>
-      <Button title="Login" onPress={signIn}/>
-      <Button title="Sign Up" onPress={signUp}/>
+      <Button title="Login" onPress={handleSignIn}/>
+      <Button title="Sign Up" onPress={handleSignUp}/>
       </>
       )}
       </KeyboardAvoidingView>

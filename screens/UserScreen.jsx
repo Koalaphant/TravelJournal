@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,19 +13,23 @@ import {
 import ProfilePic from "../components/ProfilePic";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import { FIREBASE_AUTH } from "../services/config";
-import { updateUserProfile } from "../services/updateUserProfile";
+import { getAuth } from "firebase/auth";
+import { updateUserProfile, updateUserPhoto } from "../services/updateUserProfile";
 import pickImage from "../utils/pickimage";
-import uploadImage from "../utils/uploadimage";
+import uploadImage from "../utils/uploadImage";
 import takeimage from "../utils/takeimage";
+import { UserContext } from "../contexts/UserContext"
+
 
 const UserScreen = () => {
   const [displayName, setDisplayName] = useState(null)
   const [number, setNumber] = useState(null)
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null)
-  const [uploading, setUploading] = useState(false);
+  const [imageURL, setImageURL] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const user = FIREBASE_AUTH.currentUser;
+  const {user, setUser} = useContext(UserContext)
+  const auth = getAuth()
+
   const openModal = () => {
     setIsModalVisible(true)
   }
@@ -41,44 +45,55 @@ const onChangeName = (inputText) => {
 const onChangeNumber = (inputText) => {
   setNumber(inputText)
 }
-const handleImageSelected = async () => {
-  try {
-    const imageUri = await pickImage();
-    if (!imageUri) {
-      Alert.alert("Error", "No image was selected.");
-      return; // Exit the function if no image was selected
-    }
-    setImage(imageUri);
-    setUploading(true);
-    const imageUrl = await uploadImage(imageUri);
-    setImageUrl(imageUrl);
-    setUploading(false);
-  } catch (e) {
-    console.error(e); // Log the error for debugging purposes
-    Alert.alert("Error", e.message || "An unexpected error occurred. Please try again.");
-  } finally {
-    setUploading(false); // Ensure uploading is set to false in case of error or success
-  }
-};
+
+const handleTakeImage = async () => {
+  const takenImage = await takeimage()
+  setImage(takenImage)
+  const imageURL = await uploadImage(takenImage)
+  await updateUserPhoto(imageURL)
+  setImageURL(imageURL)
+}
+const handlePickImage = async () => {
+  const pickedImage = await pickImage()
+  setImage(pickedImage)
+  const imageURL = await uploadImage(pickedImage)
+  await updateUserPhoto(imageURL)
+  setImageURL(imageURL)
+}
 
 const handleSubmit = async () => {
-  if(imageUrl && displayName && number){
+  if(displayName && number){
     setUploading(true)
     
-    await updateUserProfile(displayName, number, imageUrl)
+    await updateUserProfile(displayName, number)
   }
-  else if(!image || !displayName || !number){
+  else if(!displayName || !number){
     Alert.alert("Error", "Please fill all the fields")
   }
 }
+const handleSignOut = () => {
+  setUser(null)
+  auth.signOut()
+}
+  useEffect(() => {
+    const currentUser = auth.currentUser
+    if(currentUser){
+      setImageURL(currentUser.photoURL)
+    }
+  }, [])
 
 
   return (
    <View style={styles.container}>
       <Text style={styles.header}>Welcome</Text>
       <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
+      <MaterialCommunityIcons
+        name="logout"
+        size={24}
+        color="#D76778"
+      onPress={handleSignOut}/>
 
-    <ProfilePic image={image} onImageSelected={handleImageSelected}/>
+    <ProfilePic image={imageURL} />
 <TouchableWithoutFeedback onPress={closeModal}>
     <TouchableOpacity style={styles.button} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
         <MaterialCommunityIcons
@@ -97,13 +112,13 @@ const handleSubmit = async () => {
           name="camera-outline"
           size={28}
           color="black"
-          onPress={takeimage}
+          onPress={handleTakeImage}
         />
        <MaterialCommunityIcons
           name="camera-burst"
           size={28}
           color="black"
-          onPress={pickImage}
+          onPress={handlePickImage}
         />
     </View>
 
@@ -158,7 +173,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 20,
     fontWeight: "bold",
-    color: '#D76778'
+    color: '#181818'
   },
   bottomContainer: {
     marginTop: 5,
