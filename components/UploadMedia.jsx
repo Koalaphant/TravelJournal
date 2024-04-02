@@ -8,8 +8,8 @@ import {
   Alert,
   Image,
 } from "react-native";
-import pickImage from "../utils/pickimage";
-import uploadImage from "../utils/uploadImage";
+import {pickImage} from "../utils/pickImage";
+import {uploadImage} from "../utils/uploadImage";
 
 const UploadMedia = () => {
 

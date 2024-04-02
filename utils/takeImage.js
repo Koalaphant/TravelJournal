@@ -1,16 +1,11 @@
 import * as ImagePicker from "expo-image-picker";
-import Alert from "react-native";
-import uploadImage from "./uploadImage";
+import alert from "react-native";
 
-const takeimage = async () => {
-  const saveImage = async (image) => {
-    try {
-      uploadImage(image);
-      alert("Image uploaded");
-    } catch (error) {
-      Alert.alert("error", error);
-    }
-  };
+
+
+
+export const takeImage = async () => {
+
   try {
     await ImagePicker.requestCameraPermissionsAsync();
     let result = await ImagePicker.launchCameraAsync({
@@ -21,8 +16,8 @@ const takeimage = async () => {
     });
 
     if (!result.canceled) {
-      await saveImage(result.assets[0].uri);
-      return result.assets[0].uri
+      const image = result.assets[0].uri
+      return image
     }
     if(result.canceled){
       return null
@@ -33,4 +28,4 @@ const takeimage = async () => {
   }
 };
 
-export default takeimage;
+

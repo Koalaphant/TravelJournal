@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import placeholder from '../assets/user.png'
-import pickImage from "../utils/pickimage";
+
 
 const ProfilePic = ({image}) => {
   
