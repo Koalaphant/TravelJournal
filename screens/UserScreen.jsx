@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Alert,
-  Button,
   TextInput,
   ScrollView,
   Modal,
@@ -48,9 +47,6 @@ const onChangeNumber = (inputText) => {
 
 const handleTakeImage = async () => {
   const takenImage = await takeImage()
-  if(!takenImage){
-    return
-  }
   setImage(takenImage)
   const imageURL = await uploadImage(takenImage)
   await updateUserPhoto(imageURL)
@@ -58,9 +54,6 @@ const handleTakeImage = async () => {
 }
 const handlePickImage = async () => {
   const pickedImage = await pickImage()
-  if(!pickedImage){
-    return
-  }
   setImage(pickedImage)
   const imageURL = await uploadImage(pickedImage)
   await updateUserPhoto(imageURL)
@@ -92,20 +85,24 @@ const handleSignOut = () => {
 
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
    <View style={styles.container}>
-      <Button style={styles.button} title="Sign out" color="#D76778" onPress={handleSignOut}></Button>
       <Text style={styles.header}>Welcome</Text>
       <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
+      
+    <TouchableOpacity style={styles.exitButton} onPress={handleSignOut}>
       <MaterialCommunityIcons
         name="logout"
-        size={24}
-        color="#D76778"
-      onPress={handleSignOut}/>
+        size={22}
+        color="black"
+      />
+    </TouchableOpacity>
 
+<View style={styles.image}>
     <ProfilePic image={imageURL} />
+    </View>
+
 <TouchableWithoutFeedback onPress={closeModal}>
-    <TouchableOpacity style={styles.button} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
+    <TouchableOpacity style={styles.modalButton} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
         <MaterialCommunityIcons
           name="camera-plus-outline"
           size={24}
@@ -162,7 +159,6 @@ const handleSignOut = () => {
     </TouchableOpacity>
     </View>
    </View>
-   </ScrollView>
   );
 };
 
@@ -173,28 +169,28 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#FFEDDF",
-  },
+},
   scroll: {
     flexGrow:1,
-  },
+},
   header: {
     marginTop: -10,
     marginBottom: 10,
     fontSize: 35,
     fontWeight: "bold",
     color: '#D76778'
-  },
+},
   username: {
     marginTop: 0,
-    marginBottom: 10,
+    marginBottom: 5,
     fontSize: 20,
     fontWeight: "bold",
     color: '#181818'
-  },
+},
   bottomContainer: {
     marginTop: -30
-  },
-textFields: {
+},
+  textFields: {
   marginTop: 10,
   borderWidth: 2,
   borderColor: '#D76778',
@@ -202,30 +198,14 @@ textFields: {
   paddingRight: 200,
   padding: 8,
 },
-button: {
-  position: 'relative',
-  marginTop: 10,
-  borderWidth: 2,
-  borderColor: '#D76778',
-  borderRadius: 20,
-  paddingRight: 200,
-  padding: 8,
-},
-submitButton: {
-  backgroundColor: '#D76778',
-  paddingVertical: 10,
-  paddingHorizontal: 20,
-  borderRadius: 5,
-  marginTop: 5
-},
-input: {
+  input: {
   bottom: 0,
   right: 20,
   left: 0,
   position: 'absolute',
   textAlign: 'right',
 },
-button: {
+  modalButton: {
   position: "relative",
   borderRadius: 24,
   borderWidth: 2,
@@ -236,12 +216,30 @@ button: {
   backgroundColor: '#FFEDDF',
   padding: 4
 },
-modal_container: {
+exitButton: {
+  position: "relative",
+  borderRadius: 24,
+  borderWidth: 2,
+  borderBlockColor: 'black',
+  left: 130,
+  top: -35,
+  alignItems: 'center',
+  backgroundColor: '#FFEDDF',
+  padding: 3
+},
+  submitButton: {
+  backgroundColor: '#D76778',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 5,
+  marginTop: 5
+},
+  modal_container: {
   alignItems: 'center',
   left: 25,
   top: 75
 },
-modal: {
+  modal: {
   width: 50,
   height: 100,
   backgroundColor: '#FFEDDF',
@@ -253,5 +251,8 @@ modal: {
   alignItems: 'center',
   marginLeft: 200,
   marginTop: 240,
+},
+image: {
+  marginTop: -22
 }
 });
