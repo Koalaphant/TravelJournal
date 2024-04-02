@@ -3,7 +3,7 @@ import * as FileSystem from "expo-file-system";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Alert } from "react-native";
 
-const uploadImage = async (image) => {
+export const uploadImage = async (image) => {
   try {
     const { uri } = await FileSystem.getInfoAsync(image);
     const blob = await new Promise((resolve, reject) => {
@@ -33,4 +33,3 @@ const uploadImage = async (image) => {
   }
 };
 
-export default uploadImage;

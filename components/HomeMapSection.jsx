@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, StyleSheet, Image, Text, LogBox } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { UserContext } from "../App.js";
+import { UserContext } from "../contexts/UserContext";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
 
@@ -10,7 +10,7 @@ const HomeMapSection = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [entries, setEntries] = useState([]);
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   useEffect(() => {
     (async () => {

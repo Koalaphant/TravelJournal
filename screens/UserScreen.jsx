@@ -15,9 +15,9 @@ import {MaterialCommunityIcons} from "@expo/vector-icons"
 import { FIREBASE_AUTH } from "../services/config";
 import { getAuth } from "firebase/auth";
 import { updateUserProfile, updateUserPhoto } from "../services/updateUserProfile";
-import pickImage from "../utils/pickimage";
-import uploadImage from "../utils/uploadImage";
-import takeimage from "../utils/takeimage";
+import {pickImage} from "../utils/pickimage";
+import {uploadImage} from "../utils/uploadImage";
+import {takeimage} from "../utils/takeimage";
 import { UserContext } from "../contexts/UserContext"
 
 

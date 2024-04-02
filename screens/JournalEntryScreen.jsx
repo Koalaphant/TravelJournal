@@ -15,13 +15,13 @@ import UploadMedia from "../components/UploadMedia";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { TouchableOpacity, Pressable } from "react-native";
-import { UserContext } from "../App.js";
+import { UserContext } from "../contexts/UserContext";
 import { getFirestore } from "firebase/firestore";
 
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [entryTitle, setEntryTitle] = useState("");
   const [country, setCountry] = useState("");
   const [inputPara, setInputPara] = useState("");

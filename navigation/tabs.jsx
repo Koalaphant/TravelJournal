@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import JournalEntryScreen from "../screens/JournalEntryScreen";
 import UserScreen from "../screens/UserScreen";
-import JounralEntriesScreen from "../screens/JournalEntriesScreen";
+import JournalEntriesScreen from "../screens/JournalEntriesScreen";
 
 const Tab = createBottomTabNavigator();
 

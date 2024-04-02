@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../services/config.js";
 
-import { UserContext } from "../App.js";
+import { UserContext } from "../contexts/UserContext";
 import { useRoute } from "@react-navigation/native";
 
 
@@ -12,7 +12,7 @@ const IndividualEntry = () => {
 
   const route = useRoute();
   const { id } = route.params;
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
 
   console.log("Received id:", id); // Log the received id

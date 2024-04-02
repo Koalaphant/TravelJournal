@@ -9,14 +9,14 @@ import {
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { UserContext } from "../App.js";
+import { UserContext } from "../contexts/UserContext";
 
 const JournalEntriesScreen = () => {
   const [journalEntries, setJournalEntries] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
   const { country } = route.params;
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   console.log(country, "<<<");
 

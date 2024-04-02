@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
-import { UserContext } from "../App.js";
+import { UserContext } from "../contexts/UserContext";
 import { useNavigation } from "@react-navigation/native";
 
 const CountriesList = () => {
@@ -11,7 +11,7 @@ const CountriesList = () => {
     Poppins_400Regular,
   });
 
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const navigation = useNavigation();
 
   const [entries, setEntries] = useState([]);
