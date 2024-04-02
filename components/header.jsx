@@ -8,8 +8,8 @@ const Header = () => {
     <>
       <View style={styles.container}>
         <Image
-         source={require("../assets/traveLogo.png")}
-         style={{ width: 400, height: 150, resizeMode: "contain" }}
+          source={require("../assets/traveLogo.png")}
+          style={{ width: 400, height: 150, resizeMode: "contain" }}
         />
       </View>
     </>
@@ -18,8 +18,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 12,
-    paddingTop: 30,
+    paddingBottom: 0,
+    paddingTop: 0,
     alignItems: "center",
     backgroundColor: "#FFEDDF",
   },
