@@ -5,6 +5,7 @@ import { db } from "../services/config.js";
 
 import { UserContext } from "../contexts/UserContext";
 import { useRoute } from "@react-navigation/native";
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const IndividualEntry = () => {
@@ -47,6 +48,14 @@ const IndividualEntry = () => {
     <View style={styles.wholeScreen}>
       <Text style={styles.header}>{journal.title}</Text>
       <Text style={styles.box}>Location: {journal.country}</Text>
+      <Text style={styles.box}>Rating: {journal.rating}/5
+      <FontAwesome
+          name={'star'}
+          color='#D76778'
+          size={30}
+          style={{ marginHorizontal: 1 }}
+        />
+      </Text>
       <Text style={styles.box}>{journal.journal_text}</Text>
       <Text>{journal.date}</Text>
     </View>
