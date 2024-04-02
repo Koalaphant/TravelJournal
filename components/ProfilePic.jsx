@@ -10,8 +10,7 @@ import placeholder from '../assets/user.png'
 
 
 const ProfilePic = ({image}) => {
-  
-  console.log(image)
+
   return (
     <View>
       <Image
