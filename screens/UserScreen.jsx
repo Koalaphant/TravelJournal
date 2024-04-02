@@ -15,11 +15,10 @@ import {MaterialCommunityIcons} from "@expo/vector-icons"
 import { FIREBASE_AUTH } from "../services/config";
 import { getAuth } from "firebase/auth";
 import { updateUserProfile, updateUserPhoto } from "../services/updateUserProfile";
-import {pickImage} from "../utils/pickimage";
-import {uploadImage} from "../utils/uploadImage";
-import {takeimage} from "../utils/takeimage";
 import { UserContext } from "../contexts/UserContext"
-
+import { pickImage} from "../utils/pickImage"
+import { takeImage} from "../utils/takeImage"
+import { uploadImage} from "../utils/uploadImage"
 
 const UserScreen = () => {
   const [displayName, setDisplayName] = useState(null)
@@ -47,7 +46,7 @@ const onChangeNumber = (inputText) => {
 }
 
 const handleTakeImage = async () => {
-  const takenImage = await takeimage()
+  const takenImage = await takeImage()
   setImage(takenImage)
   const imageURL = await uploadImage(takenImage)
   await updateUserPhoto(imageURL)
