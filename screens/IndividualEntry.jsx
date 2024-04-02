@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  Image,
+} from "react-native";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { useFonts, Poppins_300Light } from "@expo-google-fonts/poppins";
-
 import { UserContext } from "../contexts/UserContext";
 import { useRoute } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
@@ -68,16 +74,33 @@ const IndividualEntry = () => {
 
   return (
     <View style={styles.wholeScreen}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>{journal.title}</Text>
-        <Text style={styles.subtitlelocation}>{journal.country}</Text>
-        <View style={styles.ratingContainer}>
-          <View style={styles.starsContainer}>{renderRatingStars()}</View>
+      {journal.imageURL ? (
+        <ImageBackground
+          source={{ uri: journal.imageURL }}
+          style={styles.headerContainer}
+        >
+          <View style={styles.overlay} />
+          <Text style={styles.title}>{journal.title}</Text>
+          <Text style={styles.subtitlelocation}>{journal.country}</Text>
+          <View style={styles.ratingContainer}>
+            <View style={styles.starsContainer}>{renderRatingStars()}</View>
+          </View>
+        </ImageBackground>
+      ) : (
+        <View style={[styles.headerContainer, { backgroundColor: "#D86779" }]}>
+          <Text style={styles.title}>{journal.title}</Text>
+          <Text style={styles.subtitlelocation}>{journal.country}</Text>
+          <View style={styles.ratingContainer}>
+            <View style={styles.starsContainer}>{renderRatingStars()}</View>
+          </View>
         </View>
-      </View>
+      )}
 
       <ScrollView>
         <Text style={styles.textBox}>{journal.journal_text}</Text>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: journal.imageURL }} style={styles.image} />
+        </View>
       </ScrollView>
     </View>
   );
@@ -90,9 +113,13 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
-    backgroundColor: "#D86779",
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingTop: 30,
+    paddingBottom: 30,
+    resizeMode: "cover", // Ensure the image covers the container
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.5)", // Dark overlay color with 50% opacity
   },
   title: {
     color: "white",
@@ -105,7 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#D86779",
     paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
+    marginVertical: 10,
   },
   textBox: {
     marginTop: 30,
@@ -113,7 +141,7 @@ const styles = StyleSheet.create({
     lineHeight: 34,
     fontSize: 20,
     fontFamily: "Poppins_300Light",
-    marginBottom: 100,
+    marginBottom: 50,
   },
   ratingContainer: {
     alignItems: "center",
@@ -122,6 +150,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 5,
+  },
+  image: {
+    aspectRatio: 1 / 1,
+    width: "80%",
+    borderRadius: 20,
+  },
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 50,
   },
 });
 
