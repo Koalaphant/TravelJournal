@@ -92,6 +92,7 @@ const handleSignOut = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
    <View style={styles.container}>
+      <Button style={styles.button} title="Sign out" color="#D76778" onPress={handleSignOut}></Button>
       <Text style={styles.header}>Welcome</Text>
       <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
       <MaterialCommunityIcons

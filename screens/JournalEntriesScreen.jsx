@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Pressable
 } from "react-native";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
@@ -17,8 +18,6 @@ const JournalEntriesScreen = () => {
   const route = useRoute();
   const { country } = route.params;
   const {user} = useContext(UserContext);
-
-  console.log(country, "<<<");
 
   // Use the country parameter in your fetch logic or wherever it's needed
 
@@ -59,13 +58,13 @@ const JournalEntriesScreen = () => {
       <ScrollView>
         {journalEntries.map((entry) => (
           <View key={entry.id} style={styles.box}>
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 navigation.navigate("IndividualEntry", { id: entry.id })
               }
             >
               <Text style={styles.entries}>{entry.title}</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         ))}
       </ScrollView>
