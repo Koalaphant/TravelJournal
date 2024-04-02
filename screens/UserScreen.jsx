@@ -69,10 +69,12 @@ const handlePickImage = async () => {
 
 const handleSubmit = async () => {
   if(displayName && number){
-    setUploading(true)
-    
-    await updateUserProfile(displayName, number)
-  }
+    // setUploading(true)
+  
+      await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
+      Alert.alert('Profile updated') 
+      
+    }
   else if(!displayName || !number){
     Alert.alert("Error", "Please fill all the fields")
   }
