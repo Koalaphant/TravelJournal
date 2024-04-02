@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../services/config.js";
+import { useFonts, Poppins_300Light } from "@expo-google-fonts/poppins";
 
 import { UserContext } from "../contexts/UserContext";
 import { useRoute } from "@react-navigation/native";
-import { FontAwesome } from '@expo/vector-icons';
-
+import { FontAwesome } from "@expo/vector-icons";
 
 const IndividualEntry = () => {
   const [journal, setJournal] = useState({});
-
   const route = useRoute();
   const { id } = route.params;
-  const {user} = useContext(UserContext);
-
+  const { user } = useContext(UserContext);
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+  });
 
   console.log("Received id:", id); // Log the received id
 
@@ -44,20 +45,40 @@ const IndividualEntry = () => {
     fetchJournalEntries();
   }, [id, user.uid]); // Include user.uid and id in the dependency array
 
+  if (!fontsLoaded) {
+    return null; // Return null while the font is loading
+  }
+
+  // Function to render rating stars
+  const renderRatingStars = () => {
+    const stars = [];
+    for (let i = 0; i < journal.rating; i++) {
+      stars.push(
+        <FontAwesome
+          key={i}
+          name={"star"}
+          color="white"
+          size={20}
+          style={{ marginHorizontal: 3 }}
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <View style={styles.wholeScreen}>
-      <Text style={styles.header}>{journal.title}</Text>
-      <Text style={styles.box}>Location: {journal.country}</Text>
-      <Text style={styles.box}>Rating: {journal.rating}/5
-      <FontAwesome
-          name={'star'}
-          color='#D76778'
-          size={30}
-          style={{ marginHorizontal: 1 }}
-        />
-      </Text>
-      <Text style={styles.box}>{journal.journal_text}</Text>
-      <Text>{journal.date}</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>{journal.title}</Text>
+        <Text style={styles.subtitlelocation}>{journal.country}</Text>
+        <View style={styles.ratingContainer}>
+          <View style={styles.starsContainer}>{renderRatingStars()}</View>
+        </View>
+      </View>
+
+      <ScrollView>
+        <Text style={styles.textBox}>{journal.journal_text}</Text>
+      </ScrollView>
     </View>
   );
 };
@@ -65,25 +86,41 @@ const IndividualEntry = () => {
 const styles = StyleSheet.create({
   wholeScreen: {
     backgroundColor: "#FFEDDF",
-    flex:1
+    flex: 1,
   },
-  header: {
-    backgroundColor: "#D76778",
-    textAlign: "center",
+  headerContainer: {
+    alignItems: "center",
+    backgroundColor: "#D86779",
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  title: {
     color: "white",
     fontSize: 30,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    borderRadius: 8,
+    marginBottom: 10,
   },
-  box: {
-    backgroundColor: "#FFEDDF",
-    textAlign: "center",
-    color: "#D76778",
+  subtitlelocation: {
+    color: "white",
+    fontSize: 25,
+    backgroundColor: "white",
+    color: "#D86779",
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+  },
+  textBox: {
+    marginTop: 30,
+    marginHorizontal: 20,
+    lineHeight: 34,
     fontSize: 20,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    borderRadius: 8,
+    fontFamily: "Poppins_300Light",
+  },
+  ratingContainer: {
+    alignItems: "center",
+  },
+  starsContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 5,
   },
 });
 
