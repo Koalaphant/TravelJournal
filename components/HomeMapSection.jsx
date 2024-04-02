@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, StyleSheet, Image, Text, LogBox } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
 import { UserContext } from "../contexts/UserContext";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeMapSection = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [entries, setEntries] = useState([]);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -56,7 +58,6 @@ const HomeMapSection = () => {
   }, [user]);
 
   useEffect(() => {
-    // Create markers based on user coordinates
     const generateMarkers = () => {
       return entries.map((entry, index) => (
         <Marker
@@ -72,12 +73,24 @@ const HomeMapSection = () => {
             source={require("../assets/pin.png")}
             style={{ width: 40, height: 40 }}
           />
+          <Callout
+            onPress={() =>
+              navigation.navigate("IndividualEntry", { id: entry.id })
+            }
+          >
+            <View style={styles.calloutContainer}>
+              <Text style={styles.entryTitle}>{entry.title}</Text>
+              <TouchableOpacity style={styles.viewEntryButton}>
+                <Text style={styles.viewEntryText}>View Entry</Text>
+              </TouchableOpacity>
+            </View>
+          </Callout>
         </Marker>
       ));
     };
 
     setMarkers(generateMarkers());
-  }, [entries]);
+  }, [entries, navigation]);
 
   return (
     <View style={styles.container}>
@@ -101,6 +114,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
   },
+  viewEntryButton: {
+    backgroundColor: "#D86779",
+    padding: 8,
+  },
+  viewEntryText: {
+    color: "white",
+  },
   map: {
     width: "100%",
     height: 300,
@@ -116,6 +136,17 @@ const styles = StyleSheet.create({
   tripView: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#D86779",
+  },
+  calloutContainer: {
+    alignItems: "center",
+    width: 200,
+    paddingVertical: 10,
+  },
+  entryTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
     color: "#D86779",
   },
 });
