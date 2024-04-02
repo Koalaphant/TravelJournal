@@ -26,7 +26,6 @@ const Gallery = () => {
     if(cameraRef) {
       try{
         const data = await cameraRef.current.takePictureAsync();
-        console.log(data)
         setImage(data.uri)
       }catch(error){
         console.log(error)
