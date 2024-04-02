@@ -8,7 +8,6 @@ import {
   ScrollView,
   Modal,
   TouchableOpacity,
-  ScrollView,
   TouchableWithoutFeedback
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
