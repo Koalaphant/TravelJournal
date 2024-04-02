@@ -52,6 +52,7 @@ const countries = [
     "Ecuador",
     "Egypt",
     "El Salvador",
+    "England",
     "Equatorial Guinea",
     "Eritrea",
     "Estonia",
@@ -151,6 +152,7 @@ const countries = [
     "San Marino",
     "Sao Tome & Principe",
     "Saudi Arabia",
+    "Scotland",
     "Senegal",
     "Serbia",
     "Seychelles",
@@ -192,6 +194,7 @@ const countries = [
     "Vatican City",
     "Venezuela",
     "Vietnam",
+    "Wales",
     "Yemen",
     "Zambia",
     "Zimbabwe"
