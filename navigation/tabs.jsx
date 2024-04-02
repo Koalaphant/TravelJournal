@@ -48,6 +48,7 @@ const Tabs = () => {
           borderRadius: 15,
           height: 90,
         },
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       }}
     >
