@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   View,
@@ -6,36 +6,34 @@ import {
   Image,
   ScrollView,
   TextInput,
-  Button
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MapSection from "../components/Map";
 import Star from "../components/Star";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
-import { TouchableOpacity, Pressable } from "react-native";
+import { TouchableOpacity, Pressable, Alert } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import { getFirestore } from "firebase/firestore";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { pickImage} from "../utils/pickImage"
-import { takeImage} from "../utils/takeImage"
-import { uploadImage} from "../utils/uploadImage"
-
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { pickImage } from "../utils/pickImage";
+import { takeImage } from "../utils/takeImage";
+import { uploadImage } from "../utils/uploadImage";
+import countries from "../assets/country-list.js";
 
 const JournalEntryScreen = () => {
   const navigation = useNavigation();
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [entryTitle, setEntryTitle] = useState("");
   const [country, setCountry] = useState("");
   const [inputPara, setInputPara] = useState("");
   const [rating, setRating] = useState(0);
-  const [locationData, setLocationData] = useState(1); 
-  const [image, setImage] = useState(null)
+  const [locationData, setLocationData] = useState(1);
+  const [image, setImage] = useState(null);
 
-  const date = new Date()
-  const timestamp = date.toString()
-
-
+  const date = new Date();
+  const timestamp = date.toString();
 
   const handleLocationChange = (coordinate) => {
     setLocationData(coordinate); // Update location data state
@@ -45,25 +43,32 @@ const JournalEntryScreen = () => {
   const handleRatingChange = (selectedRating) => {
     setRating(selectedRating);
   };
- const handleChoosePhoto = async () => {
-  const imageURI = await pickImage()
-  const imageURL = await uploadImage(imageURI)
-  setImage(imageURL)
-  return imageURL
- }
- const handleTakePhoto = async () => {
-  const imageURI = await takeImage()
-  const imageURL = await uploadImage(imageURI)
-  setImage(imageURL)
-  return imageURL
- }
-  
+  const handleChoosePhoto = async () => {
+    const imageURI = await pickImage();
+    const imageURL = await uploadImage(imageURI);
+    setImage(imageURL);
+    return imageURL;
+  };
+  const handleTakePhoto = async () => {
+    const imageURI = await takeImage();
+    const imageURL = await uploadImage(imageURI);
+    setImage(imageURL);
+    return imageURL;
+  };
+
   // ON SUBMIT
-  
+
   const handleSubmit = async () => {
     try {
+      // Validate country
+      const isValidCountry = countries.includes(country);
+      if (!isValidCountry) {
+        Alert.alert("Invalid Country", "Please enter a valid country.");
+        return;
+      }
 
-      if(image){
+      // Submit data
+      if (image) {
         await setDoc(doc(db, "Entries", timestamp), {
           UID: user.uid,
           title: entryTitle,
@@ -71,39 +76,49 @@ const JournalEntryScreen = () => {
           rating: rating,
           journal_text: inputPara,
           imageURL: image,
-          coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
+          coordinates: {
+            latitude: locationData.latitude || null,
+            longitude: locationData.longitude || null,
+          },
         });
-        Alert.alert("Submit successful")
-      }
-      else{
+        Alert.alert("Submit successful");
+      } else {
         await setDoc(doc(db, "Entries", timestamp), {
           UID: user.uid,
           title: entryTitle,
           country: country,
           rating: rating,
           journal_text: inputPara,
-          coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
+          coordinates: {
+            latitude: locationData.latitude || null,
+            longitude: locationData.longitude || null,
+          },
         });
-        Alert.alert("Submit successful")
+        Alert.alert("Submit successful");
       }
       setEntryTitle("");
       setCountry("");
       setInputPara("");
       setRating(0);
-     
     } catch (error) {
       console.error("Error writing document: ", error);
-        Alert.alert("Submit unsuccessful")
-      
+      Alert.alert("Submit unsuccessful");
     }
-  }
-
+  };
 
   return (
     <ScrollView style={styles.home} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Add a journal entry</Text>
-      <TextInput style={styles.entrytitle} placeholder="Title for your entry" onChangeText={setEntryTitle}></TextInput>
-      <TextInput style={styles.entrytitle} placeholder="Country" onChangeText={setCountry}></TextInput>
+      <TextInput
+        style={styles.entrytitle}
+        placeholder="Title for your entry"
+        onChangeText={setEntryTitle}
+      ></TextInput>
+      <TextInput
+        style={styles.entrytitle}
+        placeholder="Country"
+        onChangeText={setCountry}
+      ></TextInput>
       <TextInput
         multiline={true}
         style={styles.intro}
@@ -114,28 +129,24 @@ const JournalEntryScreen = () => {
         <Star rating={rating} setRating={handleRatingChange} />
       </View>
       <View style={styles.buttonLayout}>
-          <Pressable style={styles.buttons} onPress={handleSubmit}>
+        <Pressable style={styles.buttons} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
           <Image
             source={require("../assets/left-arrow.png")}
             style={styles.buttonImg}
           />
-          </Pressable>
-        
-        <TouchableOpacity
-          style={styles.buttons}
-          onPress={handleTakePhoto}
-        >
-          
-          <MaterialCommunityIcons name="camera" size={40} color="white"/>
+        </Pressable>
+
+        <TouchableOpacity style={styles.buttons} onPress={handleTakePhoto}>
+          <MaterialCommunityIcons name="camera" size={40} color="white" />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.buttons}
-          onPress={handleChoosePhoto}
-        >
-          
-          <MaterialCommunityIcons name="image-multiple" size={40} color="white"/>
+        <TouchableOpacity style={styles.buttons} onPress={handleChoosePhoto}>
+          <MaterialCommunityIcons
+            name="image-multiple"
+            size={40}
+            color="white"
+          />
         </TouchableOpacity>
       </View>
 
