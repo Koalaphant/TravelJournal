@@ -1,3 +1,5 @@
+Project still in development
+
 To run the project locally (mac):<br>
 clone the repo: https://github.com/Koalaphant/TravelJournal.git<br>
 run the following to install project dependencies:<br>
