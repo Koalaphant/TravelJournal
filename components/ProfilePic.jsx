@@ -9,9 +9,9 @@ import {
 import placeholder from '../assets/user.png'
 import pickImage from "../utils/pickimage";
 
-const ProfilePic = ({uri, onPress, onButtonPress, ...props}) => {
-  const [image, setImage] = useState(null)
-
+const ProfilePic = ({image}) => {
+  
+  console.log(image)
   return (
     <View>
       <Image

@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import pickImage from "../utils/pickimage";
-import uploadImage from "../utils/uploadimage";
+import uploadImage from "../utils/uploadImage";
 
 const UploadMedia = () => {
 
