@@ -14,9 +14,6 @@ const IndividualEntry = () => {
   const { id } = route.params;
   const user = useContext(UserContext);
 
-
-  console.log("Received id:", id); // Log the received id
-
   useEffect(() => {
     const fetchJournalEntries = async () => {
       try {

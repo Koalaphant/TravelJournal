@@ -16,7 +16,6 @@ const Login = () => {
   
     try{
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response)
     }catch(error){
       console.log(error)
     } finally{
@@ -29,7 +28,6 @@ const Login = () => {
   
     try{
       const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response)
       alert('Check your email')
     }catch(error){
       console.log(error)

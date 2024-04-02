@@ -56,7 +56,6 @@ const HomeMapSection = () => {
   }, [user]);
 
   const userCoordinates = [...new Set(entries.map((entry) => entry.coordinates))];
-  console.log("USER COORDS: ", userCoordinates);
   useEffect(() => {
    
     // Example: Add some markers to the map

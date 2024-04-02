@@ -18,8 +18,6 @@ const JournalEntriesScreen = () => {
   const { country } = route.params;
   const user = useContext(UserContext);
 
-  console.log(country, "<<<");
-
   // Use the country parameter in your fetch logic or wherever it's needed
 
   useEffect(() => {

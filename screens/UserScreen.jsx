@@ -8,7 +8,8 @@ import {
   Button,
   Modal,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ScrollView
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
@@ -74,67 +75,69 @@ const handleSubmit = async () => {
 
 
   return (
-   <View style={styles.container}>
-      <Text style={styles.header}>Welcome</Text>
-      <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
+    <ScrollView style={styles.scrollview}>
+    <View style={styles.container}>
+        <Text style={styles.header}>Welcome</Text>
+        <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
 
-    <ProfilePic image={image} onImageSelected={handleImageSelected}/>
-<TouchableWithoutFeedback onPress={closeModal}>
-    <TouchableOpacity style={styles.button} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
+      <ProfilePic image={image} onImageSelected={handleImageSelected}/>
+  <TouchableWithoutFeedback onPress={closeModal}>
+      <TouchableOpacity style={styles.button} onPress={() => { isModalVisible ? closeModal() : openModal()}}>
+          <MaterialCommunityIcons
+            name="camera-plus-outline"
+            size={24}
+            color="black"
+          />
+      </TouchableOpacity>
+  </TouchableWithoutFeedback>
+
+      <Modal visible={isModalVisible} transparent animationType="slide">
+        <TouchableWithoutFeedback onPress={closeModal}>
+      <View style={styles.modal_container}>
+      <View style={styles.modal}>
         <MaterialCommunityIcons
-          name="camera-plus-outline"
+            name="camera-outline"
+            size={28}
+            color="black"
+            onPress={takeimage}
+          />
+        <MaterialCommunityIcons
+            name="camera-burst"
+            size={28}
+            color="black"
+            onPress={pickImage}
+          />
+      </View>
+
+      </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      <View style={styles.bottomContainer}>
+      <View style={styles.textFields}>
+        <MaterialCommunityIcons
+          name="account-outline"
           size={24}
-          color="black"
+          color="#D76778"
         />
-    </TouchableOpacity>
-</TouchableWithoutFeedback>
+        <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
+      </View>
 
-    <Modal visible={isModalVisible} transparent animationType="slide">
-      <TouchableWithoutFeedback onPress={closeModal}>
-    <View style={styles.modal_container}>
-    <View style={styles.modal}>
-      <MaterialCommunityIcons
-          name="camera-outline"
-          size={28}
-          color="black"
-          onPress={takeimage}
+
+      <View style={styles.textFields}>
+        <MaterialCommunityIcons
+          name="phone-outline"
+          size={24}
+          color="#D76778"
         />
-       <MaterialCommunityIcons
-          name="camera-burst"
-          size={28}
-          color="black"
-          onPress={pickImage}
-        />
+        <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
+      </View>
+        
+        <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}></Button>
+
+      </View>  
     </View>
-
-    </View>
-      </TouchableWithoutFeedback>
-    </Modal>
-
-    <View style={styles.bottomContainer}>
-     <View style={styles.textFields}>
-      <MaterialCommunityIcons
-        name="account-outline"
-        size={24}
-        color="#D76778"
-      />
-      <TextInput style={styles.input} value={displayName} placeholder='Enter name' onChangeText={onChangeName}></TextInput>
-     </View>
-
-
-     <View style={styles.textFields}>
-      <MaterialCommunityIcons
-        name="phone-outline"
-        size={24}
-        color="#D76778"
-      />
-      <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
-     </View>
-      
-      <Button style={styles.button} title="Submit" color="#D76778" onPress={handleSubmit}></Button>
-
-    </View>  
-   </View>
+    </ScrollView>
   );
 };
 
@@ -215,5 +218,8 @@ modal: {
   alignItems: 'center',
   marginLeft: 200,
   marginTop: 240,
+},
+scrollview: {
+  
 }
 });
