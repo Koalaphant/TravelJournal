@@ -30,12 +30,10 @@ const JournalEntryScreen = () => {
   const date = new Date()
   const timestamp = date.toString()
   
-  console.log(locationData.latitude);
 
 
   const handleLocationChange = (coordinate) => {
     setLocationData(coordinate); // Update location data state
-    console.log("New coordinate: <<< IN THE JOURNAL ENTRY", coordinate); // Log the coordinates
   };
 
   // Function to log the rating
@@ -56,7 +54,6 @@ const JournalEntryScreen = () => {
         journal_text: inputPara,
         coordinates:{latitude:locationData.latitude,longitude:locationData.longitude}
       });
-      console.log("Document successfully written!");
       setEntryTitle("");
       setCountry("");
       setInputPara("");
