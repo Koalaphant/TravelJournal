@@ -73,6 +73,7 @@ const JournalEntryScreen = () => {
           imageURL: image,
           coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
         });
+        Alert.alert("Submit successful")
       }
       else{
         await setDoc(doc(db, "Entries", timestamp), {
@@ -83,6 +84,7 @@ const JournalEntryScreen = () => {
           journal_text: inputPara,
           coordinates:{latitude:locationData.latitude || null,longitude:locationData.longitude || null}
         });
+        Alert.alert("Submit successful")
       }
       setEntryTitle("");
       setCountry("");
@@ -91,6 +93,7 @@ const JournalEntryScreen = () => {
      
     } catch (error) {
       console.error("Error writing document: ", error);
+        Alert.alert("Submit unsuccessful")
       
     }
   }
