@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 import { UserContext } from "../contexts/UserContext";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const HomeMapSection = () => {
   const [userLocation, setUserLocation] = useState(null);
@@ -14,6 +14,7 @@ const HomeMapSection = () => {
   const { user } = useContext(UserContext);
   const navigation = useNavigation();
 
+  // Function to fetch user's current location
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -34,32 +35,25 @@ const HomeMapSection = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    const fetchCoords = async () => {
-      try {
-        if (!user) return;
+  // Function to fetch entries and generate markers
+  const fetchEntriesAndGenerateMarkers = async () => {
+    try {
+      if (!user) return;
 
-        const entriesRef = collection(db, "Entries");
-        const q = query(entriesRef, where("UID", "==", user.uid));
-        const querySnapshot = await getDocs(q);
+      const entriesRef = collection(db, "Entries");
+      const q = query(entriesRef, where("UID", "==", user.uid));
+      const querySnapshot = await getDocs(q);
 
-        const entriesData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+      const entriesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-        setEntries(entriesData);
-      } catch (error) {
-        console.error("Error fetching entries:", error);
-      }
-    };
+      // Update state with fetched entries
+      setEntries(entriesData);
 
-    fetchCoords();
-  }, [user]);
-
-  useEffect(() => {
-    const generateMarkers = () => {
-      return entries.map((entry, index) => (
+      // Generate markers based on fetched entries
+      const generatedMarkers = entriesData.map((entry, index) => (
         <Marker
           key={index}
           coordinate={{
@@ -87,10 +81,20 @@ const HomeMapSection = () => {
           </Callout>
         </Marker>
       ));
-    };
 
-    setMarkers(generateMarkers());
-  }, [entries, navigation]);
+      // Update state with generated markers
+      setMarkers(generatedMarkers);
+    } catch (error) {
+      console.error("Error fetching entries:", error);
+    }
+  };
+
+  // Use useFocusEffect hook to reload data when the component is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchEntriesAndGenerateMarkers();
+    }, [user]) // Add user as a dependency
+  );
 
   return (
     <View style={styles.container}>
