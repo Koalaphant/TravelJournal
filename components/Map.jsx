@@ -63,9 +63,9 @@ const MapSection = ({ onLocationChange }) => {
   };
 
   const removeMarker = () => {
-    setMarker(null);
+    setMarker('');
     // Pass null to indicate removal of marker
-    onLocationChange(null);
+    onLocationChange('');
   };
 
   return (
