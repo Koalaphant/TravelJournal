@@ -27,8 +27,8 @@ const HomeMapSection = () => {
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 50.9001,
-          longitudeDelta: 50.9001,
+          latitudeDelta: 190.9001,
+          longitudeDelta: 190.9001,
         });
       }
     })();
