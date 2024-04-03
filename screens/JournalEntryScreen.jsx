@@ -77,8 +77,8 @@ const JournalEntryScreen = () => {
           journal_text: inputPara,
           imageURL: image,
           coordinates: {
-            latitude: locationData.latitude || null,
-            longitude: locationData.longitude || null,
+            latitude: locationData.latitude || 0,
+            longitude: locationData.longitude || 0,
           },
         });
         Alert.alert("Submit successful");
@@ -100,7 +100,6 @@ const JournalEntryScreen = () => {
       setCountry("");
       setInputPara("");
       setRating(0);
-      navigation.navigate("HomeScreen")
     } catch (error) {
       console.error("Error writing document: ", error);
       Alert.alert("Submit unsuccessful");
@@ -114,17 +113,18 @@ const JournalEntryScreen = () => {
         style={styles.entrytitle}
         placeholder="Title for your entry"
         onChangeText={setEntryTitle}
-      ></TextInput>
+      >{entryTitle}</TextInput>
       <TextInput
         style={styles.entrytitle}
         placeholder="Country"
         onChangeText={setCountry}
-      ></TextInput>
+      >{country}</TextInput>
       <TextInput
         multiline={true}
         style={styles.intro}
         onChangeText={setInputPara}
-      />
+        placeholder="Today on my travels I...">
+      {inputPara}</TextInput>
       <View style={styles.starContainer}>
         {/* Pass handleRatingChange function to the Star component */}
         <Star rating={rating} setRating={handleRatingChange} />
