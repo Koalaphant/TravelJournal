@@ -11,6 +11,7 @@ import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { UserContext } from "../contexts/UserContext";
+import { useFocusEffect } from "@react-navigation/native"; // Import useFocusEffect
 import { useNavigation } from "@react-navigation/native";
 
 const CountriesList = () => {
@@ -23,28 +24,36 @@ const CountriesList = () => {
 
   const [entries, setEntries] = useState([]);
 
-  useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        if (!user) return;
+  // Use useFocusEffect hook
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchEntries = async () => {
+        try {
+          if (!user) return;
 
-        const entriesRef = collection(db, "Entries");
-        const q = query(entriesRef, where("UID", "==", user.uid));
-        const querySnapshot = await getDocs(q);
+          const entriesRef = collection(db, "Entries");
+          const q = query(entriesRef, where("UID", "==", user.uid));
+          const querySnapshot = await getDocs(q);
 
-        const entriesData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+          const entriesData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
 
-        setEntries(entriesData);
-      } catch (error) {
-        console.error("Error fetching entries:", error);
-      }
-    };
+          setEntries(entriesData);
+        } catch (error) {
+          console.error("Error fetching entries:", error);
+        }
+      };
 
-    fetchEntries();
-  }, [user]);
+      fetchEntries();
+
+      // Return cleanup function
+      return () => {
+        // Cleanup logic, if any
+      };
+    }, [user]) // Add user as a dependency
+  );
 
   if (!fontsLoaded || entries.length === 0) {
     return null;
@@ -95,9 +104,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: "100%",
-    height: 100,
+    height: 120,
     justifyContent: "center",
     backgroundColor: "#fff",
+    borderBottomWidth: 5,
+    borderColor: "#f2b8c1",
   },
   text: {
     fontFamily: "Poppins_400Regular",

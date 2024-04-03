@@ -6,17 +6,20 @@ import {
   ScrollView,
   ImageBackground,
   Image,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { useFonts, Poppins_300Light } from "@expo-google-fonts/poppins";
 import { UserContext } from "../contexts/UserContext";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 
 const IndividualEntry = () => {
   const [journal, setJournal] = useState({});
   const route = useRoute();
+  const navigation = useNavigation();
   const { id } = route.params;
   const { user } = useContext(UserContext);
   const [fontsLoaded] = useFonts({
@@ -50,6 +53,22 @@ const IndividualEntry = () => {
 
     fetchJournalEntries();
   }, [id, user.uid]); // Include user.uid and id in the dependency array
+
+  const handleDelete = async () => {
+    try {
+      if (!user.uid || !id) return; // Make sure user UID and ID are defined
+
+      // Construct the reference to the document to delete
+      const docRef = doc(db, "Entries", id); // Assuming id is the document ID
+      await deleteDoc(docRef);
+
+      // Navigate back to the previous screen after deletion
+      navigation.navigate("Home", { reload: true });
+    } catch (error) {
+      console.error("Error deleting journal entry:", error);
+      Alert.alert("Error", "Failed to delete journal entry.");
+    }
+  };
 
   if (!fontsLoaded) {
     return null; // Return null while the font is loading
@@ -101,6 +120,9 @@ const IndividualEntry = () => {
         <View style={styles.imageContainer}>
           <Image source={{ uri: journal.imageURL }} style={styles.image} />
         </View>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -159,6 +181,16 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     marginBottom: 50,
+  },
+  deleteButton: {
+    backgroundColor: "#D86779",
+    padding: 15,
+    alignItems: "center",
+  },
+  deleteButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

@@ -77,8 +77,8 @@ const JournalEntryScreen = () => {
           journal_text: inputPara,
           imageURL: image,
           coordinates: {
-            latitude: locationData.latitude || null,
-            longitude: locationData.longitude || null,
+            latitude: locationData.latitude || 0,
+            longitude: locationData.longitude || 0,
           },
         });
         Alert.alert("Submit successful");
@@ -90,8 +90,8 @@ const JournalEntryScreen = () => {
           rating: rating,
           journal_text: inputPara,
           coordinates: {
-            latitude: locationData.latitude || null,
-            longitude: locationData.longitude || null,
+            latitude: locationData.latitude || 0,
+            longitude: locationData.longitude || 0,
           },
         });
         Alert.alert("Submit successful");
@@ -113,22 +113,41 @@ const JournalEntryScreen = () => {
         style={styles.entrytitle}
         placeholder="Title for your entry"
         onChangeText={setEntryTitle}
-      ></TextInput>
+      >{entryTitle}</TextInput>
       <TextInput
         style={styles.entrytitle}
         placeholder="Country"
         onChangeText={setCountry}
-      ></TextInput>
+      >{country}</TextInput>
       <TextInput
         multiline={true}
         style={styles.intro}
         onChangeText={setInputPara}
-      />
+        placeholder="Today on my travels I...">
+      {inputPara}</TextInput>
       <View style={styles.starContainer}>
         {/* Pass handleRatingChange function to the Star component */}
         <Star rating={rating} setRating={handleRatingChange} />
       </View>
       <View style={styles.buttonLayout}>
+
+        <Pressable style={styles.buttons} onPress={handleTakePhoto}>
+          <MaterialCommunityIcons name="camera" size={40} color="white" />
+        </Pressable>
+
+        <Pressable style={styles.buttons} onPress={handleChoosePhoto}>
+          <MaterialCommunityIcons
+            name="image-multiple"
+            size={40}
+            color="white"
+          />
+        </Pressable>
+      </View>
+
+      <View style={styles.mapContainer}>
+        {/* Pass the function handleLocationChange as a prop */}
+        <MapSection onLocationChange={handleLocationChange} />
+
         <Pressable style={styles.buttons} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
           <Image
@@ -137,22 +156,6 @@ const JournalEntryScreen = () => {
           />
         </Pressable>
 
-        <TouchableOpacity style={styles.buttons} onPress={handleTakePhoto}>
-          <MaterialCommunityIcons name="camera" size={40} color="white" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttons} onPress={handleChoosePhoto}>
-          <MaterialCommunityIcons
-            name="image-multiple"
-            size={40}
-            color="white"
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.mapContainer}>
-        {/* Pass the function handleLocationChange as a prop */}
-        <MapSection onLocationChange={handleLocationChange} />
       </View>
       {/* Display coordinates */}
       {locationData && (
@@ -165,6 +168,9 @@ const JournalEntryScreen = () => {
           </Text>
         </View>
       )}
+      <View>
+
+      </View>
     </ScrollView>
   );
 };
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFEDDF",
   },
   mapContainer: {
-    marginBottom: 500,
+    marginBottom: 300
   },
   coordinatesContainer: {
     backgroundColor: "#ffffff",
@@ -253,6 +259,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 3,
     paddingHorizontal: 10,
+    marginTop: 10
   },
   buttonText: {
     fontSize: 20,
