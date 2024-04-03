@@ -99,6 +99,7 @@ const handleSignOut = () => {
 
 
   return (
+    <ScrollView style={styles.wholescreen}>
    <View style={styles.container}>
       <Text style={styles.header}>Welcome</Text>
       <Text style={styles.username}>{user.displayName ? user.displayName : user.email}</Text>
@@ -173,6 +174,7 @@ const handleSignOut = () => {
     </TouchableOpacity>
     </View>
    </View>
+    </ScrollView>
   );
 };
 
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     flexGrow:1,
 },
   header: {
-    marginTop: -10,
+    marginTop: 10,
     marginBottom: 10,
     fontSize: 35,
     fontWeight: "bold",
@@ -268,5 +270,8 @@ exitButton: {
 },
 image: {
   marginTop: -22
+},
+wholescreen: {
+  backgroundColor: '#FFEDDF'
 }
 });
