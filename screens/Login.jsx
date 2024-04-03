@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, TextInput, ActivityIndicator, KeyboardAvoidingView} from "react-native";
+import { View, Text, StyleSheet, Button, TextInput, ActivityIndicator, KeyboardAvoidingView, Pressable} from "react-native";
 import React, { useState, useContext } from "react";
 import { FIREBASE_AUTH } from "../services/config";
 
@@ -24,18 +24,20 @@ const Login = () => {
   
   
   return (
-    <View style = {styles.container}>
+    <View style = {styles.wholescreen}>
+      <View style={styles.container}>
       <KeyboardAvoidingView behaviour='padding'>
       <TextInput value={email} onChangeText={setEmail} placeholder="Email" style={styles.input}/>
       <TextInput value={password} secureTextEntry={true} onChangeText={setPassword} placeholder="Password" style={styles.input}/>
       { loading ? <ActivityIndicator size="large" color='#0000ff'/>
       : (
       <>
-      <Button title="Login" onPress={handleSignIn}/>
-      <Button title="Sign Up" onPress={handleSignUp}/>
+      <Pressable onPress={handleSignIn}><Text style={styles.login}>Login</Text></Pressable>
+      <Pressable onPress={handleSignUp}><Text style={styles.login}>Sign up</Text></Pressable>
       </>
       )}
       </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
@@ -44,10 +46,13 @@ const Login = () => {
 
 export default Login;
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 20,
-    marginTop: 80,
-    justifyContent: 'center',
+  wholescreen: {
+    backgroundColor: '#FFEDDF',
+    flex:1
+  },
+  container:{
+    marginHorizontal: 40,
+    marginTop: 20,
   },
   input: {
     marginVertical: 4,
@@ -56,5 +61,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: '#fff'
+  },
+  login:{
+    backgroundColor: '#D76778',
+    color: '#fff',
+    fontSize: 24,
+    textAlign: 'center',
+    borderRadius: 8,
+    width: 150,
+    marginVertical: 10,
+    alignSelf: 'center',
+    padding: 5
+
   }
 })
