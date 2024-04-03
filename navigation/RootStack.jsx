@@ -11,7 +11,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import FriendsScreen from "../screens/FriendScreen";
 import HomeScreen from '../screens/HomeScreen';
+
 
 const LoginLayout = () => {
   return (
@@ -64,6 +66,10 @@ const {user} = useContext(UserContext)
                 component={JournalEntriesScreen}
                 options={{headerShown: false}}
               />
+              <Stack.Screen
+                name="FriendsScreen"
+                component={FriendsScreen}
+               />
               <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}

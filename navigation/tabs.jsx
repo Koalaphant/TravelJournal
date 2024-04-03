@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import JournalEntryScreen from "../screens/JournalEntryScreen";
 import UserScreen from "../screens/UserScreen";
 import JournalEntriesScreen from "../screens/JournalEntriesScreen";
+import FriendsScreen from "../screens/FriendScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +54,7 @@ const Tabs = () => {
         headerShown: false,
       }}
     >
+      
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -79,6 +81,37 @@ const Tabs = () => {
                 style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
               >
                 HOME
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Journal"
+        component={JournalEntriesScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 1,
+              }}
+            >
+              <Image
+                source={require("../assets/journal.png")}
+                resizeMode="contain"
+                style={{
+                  width: 28,
+                  height: 28,
+                  tintColor: focused ? "#D76778" : "#748c94",
+                  marginBottom: 2,
+                }}
+              />
+              <Text
+                style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
+              >
+                JOURNAL
               </Text>
             </View>
           ),
@@ -128,6 +161,37 @@ const Tabs = () => {
                 style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
               >
                 USER
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Friends"
+        component={FriendsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 1,
+              }}
+            >
+              <Image
+                source={require("../assets/love.png")}
+                resizeMode="contain"
+                style={{
+                  width: 28,
+                  height: 28,
+                  tintColor: focused ? "#D76778" : "#748c94",
+                  marginBottom: 2,
+                }}
+              />
+              <Text
+                style={{ color: focused ? "#D76778" : "#748c94", fontSize: 12 }}
+              >
+                FRIENDS
               </Text>
             </View>
           ),

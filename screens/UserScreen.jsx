@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import ProfilePic from "../components/ProfilePic";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
-import { FIREBASE_AUTH } from "../services/config";
-import { getAuth } from "firebase/auth";
+import { FIREBASE_AUTH, db } from "../services/config";
+import { getAuth, doc, setDoc, getDoc } from "firebase/auth";
 import { updateUserProfile, updateUserPhoto } from "../services/updateUserProfile";
 import { UserContext } from "../contexts/UserContext"
 import { pickImage} from "../utils/pickImage"
@@ -60,14 +60,26 @@ const handlePickImage = async () => {
   setImageURL(imageURL)
 }
 
+  
+
 const handleSubmit = async () => {
   if(displayName && number){
     // setUploading(true)
   
       await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
       Alert.alert('Profile updated') 
-      
+     
     }
+  if(displayName && imageURL){await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
+    
+  await updateUserProfile(displayName, number)
+  await updateUserPhoto(imageURL)
+  await setDoc(doc(db, "Users", user.uid), {
+      displayName: displayName,
+      imageURL: imageURL,
+      friends : {}
+    })
+  }
   else if(!displayName || !number){
     Alert.alert("Error", "Please fill all the fields")
   }
@@ -81,7 +93,9 @@ const handleSignOut = () => {
     if(currentUser){
       setImageURL(currentUser.photoURL)
     }
+    
   }, [])
+
 
 
   return (
