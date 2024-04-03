@@ -86,8 +86,9 @@ const MapSection = ({ onLocationChange }) => {
         )}
       </MapView>
       <View style={styles.buttonLayout}>
-        <Button title="Get Current Location" onPress={getLocationData} />
+        <Button color='#D76778' title="Get Current Location" onPress={getLocationData} />
         <Button
+          color='#D76778'
           title="Remove Marker"
           onPress={removeMarker}
           disabled={!marker}
@@ -107,14 +108,16 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: 300,
+    height: 250,
   },
   buttonLayout: {
-    backgroundColor: "pink",
+    backgroundColor: "#f1f1f1",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
     padding: 10,
+    borderBottomLeftRadius:8,
+    borderBottomRightRadius:8,
   },
 });
 
