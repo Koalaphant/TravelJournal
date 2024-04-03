@@ -9,7 +9,7 @@ const Header = () => {
       <View style={styles.container}>
         <Image
           source={require("../assets/traveLogo.png")}
-          style={{ width: 400, height: 150, resizeMode: "contain" }}
+          style={styles.image}
         />
       </View>
     </>
@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFEDDF",
   },
+  image:{
+    width: 400,
+    height: 150,
+    resizeMode: 'contain',
+    marginTop: 12,
+    marginBottom: 0
+  }
 });
 
 export default Header;
