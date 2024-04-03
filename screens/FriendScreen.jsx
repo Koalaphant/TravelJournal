@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#FFEDDF",
+    
+    
   },
   contentContainer: {
     marginHorizontal: 20,
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: '#D76778',
     borderRadius: 5,
     backgroundColor: '#f9f9f9',
   },
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 16,
+    fontWeight: 'bold'
   },
   image: {
     width: 50,
