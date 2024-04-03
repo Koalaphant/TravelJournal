@@ -37,6 +37,7 @@ const Tabs = () => {
     <Tab.Navigator
       initialRouteName="User"
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
