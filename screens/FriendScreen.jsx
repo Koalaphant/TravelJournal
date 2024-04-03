@@ -9,46 +9,41 @@ import {flag} from "country-emoji";
 const FriendsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const {user} = useContext(UserContext)
-  const [friends, setFriends] = useState();
+  const [friends, setFriends] = useState([]);
 
   useEffect(() =>{
     const fetchFriends = async () =>{
       const docRef = doc(db, "Users", user.uid)
       const docSnap = await getDoc(docRef)
       if(docSnap.exists()){
-        setFriends(docSnap.data().friends)
-      }
+        const friendsBasicInfo = docSnap.data().friends; 
 
-      
-      const friendsWithCountriesPromises = friends.map(async (friend) => {
-        const friendId = friend.uid;
-        const q = query(collection(db, "Entries"), where("UID", "==", friendId));
-        const qSnap = await getDocs(q); 
-        let countries = [];
-        qSnap.forEach((doc) => { 
-          if (doc.data().country && !countries.includes(doc.data().country)) {
-            countries.push(flag(doc.data().country));
-          countries = [...new Set(countries)];
-          }
+        const friendsWithCountriesPromises = friendsBasicInfo.map(async (friend) => {
+          const friendId = friend.uid; 
+          const q = query(collection(db, "Entries"), where("UID", "==", friendId)); 
+          const qSnap = await getDocs(q);
+          let countries = [];
+          qSnap.forEach((doc) => {
+            const country = doc.data().country;
+            if (country && !countries.includes(country)) {
+              countries.push(flag(country));
+            }
+          });
+          countries = [...new Set(countries)]; 
+          return { ...friend, countries }; 
         });
-        return {
-          ...friend,
-          countries,
-        };
-      });
 
-      
-      const friendsWithCountries = await Promise.all(friendsWithCountriesPromises);
-      setFriends(friendsWithCountries);
-      console.log(friendsWithCountries)
-
-    
+        const friendsWithCountries = await Promise.all(friendsWithCountriesPromises);
+        setFriends(friendsWithCountries); 
+      }
     }
     fetchFriends()
   },[user.uid])
 
   return (
+    
     <View style={styles.container}>
+      
       <TextInput
         placeholder="Search for friends..."
         value={searchQuery}
@@ -56,8 +51,8 @@ const FriendsScreen = () => {
         style={styles.searchBar}
       />
 
-      <ScrollView style={styles.contentContainer}>
-        {friends?.map(friend => (
+    <ScrollView style={styles.contentContainer}>
+        {friends && friends.length > 0 && friends.map(friend => (
           <View key={friend.uid} style={styles.nameCard}>
             <Image source={{uri: friend.imageURL}} style={styles.image}/>
             <Text style={styles.cardText}>{friend.displayName}</Text>
