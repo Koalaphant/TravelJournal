@@ -42,8 +42,8 @@ const FriendsScreen = () => {
 
   return (
     
-    <View style={styles.container}>
-      
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
       <TextInput
         placeholder="Search for friends..."
         value={searchQuery}
@@ -51,7 +51,7 @@ const FriendsScreen = () => {
         style={styles.searchBar}
       />
 
-    <ScrollView style={styles.contentContainer}>
+    <View style={styles.contentContainer}>
         {friends && friends.length > 0 && friends.map(friend => (
           <View key={friend.uid} style={styles.nameCard}>
             <Image source={{uri: friend.imageURL}} style={styles.image}/>
@@ -59,21 +59,27 @@ const FriendsScreen = () => {
             <Text style={styles.countryText}>{friend.countries?.join(', ')}</Text>
           </View>
         ))}
-      </ScrollView>
-    </View>
+      </View>
+      </View>
+    </ScrollView>
   );
 };
 
 export default FriendsScreen;
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#FFEDDF",
+
   },
   contentContainer: {
     marginHorizontal: 20,
+
   },
   searchBar: {
     fontSize: 18,

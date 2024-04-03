@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -11,39 +11,56 @@ import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../services/config.js";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { UserContext } from "../contexts/UserContext";
+import {Picker} from '@react-native-picker/picker'
 
 const JournalEntriesScreen = () => {
   const [journalEntries, setJournalEntries] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
-  const { country } = route.params;
   const {user} = useContext(UserContext);
+  const [countries, setCountries] = useState();
+  const [country, setCountry] = useState();
+  const countryFromParams = route.params?.country
 
-  // Use the country parameter in your fetch logic or wherever it's needed
+  useEffect(()=>{
+    if(countryFromParams){
+      setCountry(countryFromParams)
+    }
+  },[countryFromParams])
+  
+  useEffect(() => {
+    const fetchCountries = async () => {
+      const q = query(collection(db, "Entries"), where("UID", "==", user.uid)); 
+      const querySnapshot = await getDocs(q);
+      const countriesData = querySnapshot.docs.map((doc) => (
+        doc.data().country
+      ));
+      setCountries(countriesData);
+    };
+  
+    fetchCountries();
+  }, []);
+ 
 
   useEffect(() => {
     const fetchJournalEntries = async () => {
       try {
-        if (!country) return; // Make sure country is defined
+        
+        let effectiveCountry = countryFromParams || country ||countries?.[0];
 
-        // Construct the query to filter entries based on UID and country
         const entriesRef = collection(db, "Entries");
         const q = query(
           entriesRef,
           where("UID", "==", user.uid),
-          where("country", "==", country)
+          where("country", "==", effectiveCountry) 
         );
-
-        // Execute the query
         const querySnapshot = await getDocs(q);
 
-        // Map the fetched documents to data objects
         const journalEntriesData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
 
-        // Set the state with the filtered journal entries
         setJournalEntries(journalEntriesData);
       } catch (error) {
         console.error("Error fetching journal entries:", error);
@@ -51,11 +68,31 @@ const JournalEntriesScreen = () => {
     };
 
     fetchJournalEntries();
-  }, [country, user]);
+  }, [country, countryFromParams, countries, user.uid]); 
+  
+  const pickerRef = useRef();
 
+  function open() {
+    pickerRef.current.focus();
+  }
+  
+  function close() {
+    pickerRef.current.blur();
+  }
   return (
     <View style={styles.wholeScreen}>
       <ScrollView>
+        <Picker 
+        ref={pickerRef}
+        selectedValue={country} 
+        onValueChange={(country) => {
+          setCountry(country);
+        }}
+        >
+          {countries?.map((country, index) => ( 
+            <Picker.Item style={styles.picker} label={country} value={country} key={index} />
+          ))}
+        </Picker>
         {journalEntries.map((entry) => (
           <View key={entry.id} style={styles.box}>
             <Pressable
@@ -76,6 +113,14 @@ const styles = StyleSheet.create({
   wholeScreen: {
     flex: 1,
     backgroundColor: '#FFEDDF'
+  },
+  picker: {
+    height: 50,
+    width: 100,
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 10,
+    textAlign: 'center'
   },
   box: {
     backgroundColor: "#D76778",
