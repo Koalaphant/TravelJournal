@@ -21,8 +21,8 @@ import { takeImage} from "../utils/takeImage"
 import { uploadImage} from "../utils/uploadImage"
 
 const UserScreen = () => {
-  const [displayName, setDisplayName] = useState(null)
-  const [number, setNumber] = useState(null)
+  const [displayName, setDisplayName] = useState('')
+  const [email, setEmail] = useState('')
   const [image, setImage] = useState(null);
   const [imageURL, setImageURL] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -41,8 +41,8 @@ const onChangeName = (inputText) => {
   setDisplayName(inputText)
 }
 
-const onChangeNumber = (inputText) => {
-  setNumber(inputText)
+const onChangeEmail = (inputText) => {
+  setEmail(inputText)
 }
 
 const handleTakeImage = async () => {
@@ -63,16 +63,15 @@ const handlePickImage = async () => {
   
 
 const handleSubmit = async () => {
-  if(displayName && number){
-    // setUploading(true)
+  if(displayName && email){
   
-      await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
+      await updateUserProfile(displayName, email).catch(()=>Alert.alert('Something went wrong'))
       Alert.alert('Profile updated') 
      
     }
   if(displayName && imageURL){await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
     
-  await updateUserProfile(displayName, number)
+  await updateUserProfile(displayName, email)
   await updateUserPhoto(imageURL)
   await setDoc(doc(db, "Users", user.uid), {
       displayName: displayName,
@@ -80,7 +79,7 @@ const handleSubmit = async () => {
       friends : {}
     })
   }
-  else if(!displayName || !number){
+  else if(!displayName || !email){
     Alert.alert("Error", "Please fill all the fields")
   }
 }
@@ -161,11 +160,11 @@ const handleSignOut = () => {
 
      <View style={styles.textFields}>
       <MaterialCommunityIcons
-        name="phone-outline"
+        name="email-outline"
         size={24}
         color="#D76778"
       />
-      <TextInput style={styles.input} value={number} placeholder='Enter mobile' onChangeText={onChangeNumber}></TextInput>
+      <TextInput style={styles.input} value={email} placeholder='Enter email' onChangeText={onChangeEmail}></TextInput>
      </View>
       
       
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   username: {
     marginTop: 0,
     marginBottom: 5,
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     color: '#181818'
 },
