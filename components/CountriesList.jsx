@@ -104,9 +104,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: "100%",
-    height: 100,
+    height: 120,
     justifyContent: "center",
     backgroundColor: "#fff",
+    borderBottomWidth: 5,
+    borderColor: "#f2b8c1",
   },
   text: {
     fontFamily: "Poppins_400Regular",
