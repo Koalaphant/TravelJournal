@@ -32,8 +32,8 @@ const Login = () => {
       { loading ? <ActivityIndicator size="large" color='#0000ff'/>
       : (
       <>
-      <Pressable onPress={handleSignIn}><Text style={styles.login}>Login</Text></Pressable>
-      <Pressable onPress={handleSignUp}><Text style={styles.login}>Sign up</Text></Pressable>
+      <Pressable onPress={handleSignIn}><Text onPress={handleSignIn} style={styles.login}>Login</Text></Pressable>
+      <Pressable onPress={handleSignUp}><Text onPress={handleSignUp} style={styles.login}>Sign up</Text></Pressable>
       </>
       )}
       </KeyboardAvoidingView>
