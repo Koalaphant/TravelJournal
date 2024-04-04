@@ -21,8 +21,8 @@ import { takeImage} from "../utils/takeImage"
 import { uploadImage} from "../utils/uploadImage"
 
 const UserScreen = () => {
-  const [displayName, setDisplayName] = useState('')
-  const [email, setEmail] = useState('')
+  const [displayName, setDisplayName] = useState(displayName)
+  const [email, setEmail] = useState(email)
   const [image, setImage] = useState(null);
   const [imageURL, setImageURL] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -69,36 +69,42 @@ const handlePickImage = async () => {
   
 
 const handleSubmit = async () => {
-  if(displayName && email){
-  
-      await updateUserProfile(displayName, email).catch(()=>Alert.alert('Something went wrong'))
-      Alert.alert('Profile updated') 
-     
+  if (!displayName || !email) {
+    Alert.alert("Error", "Please fill all the fields");
+    return;
+  }
+
+  try {
+    await updateUserProfile(displayName, email);
+
+    if (imageURL) {
+      await updateUserPhoto(imageURL);
+
+      await setDoc(doc(db, "Users", user.uid), {
+        displayName: displayName,
+        imageURL: imageURL,
+        friends: {}
+      });
     }
-  if(displayName && imageURL){await updateUserProfile(displayName, number).catch(()=>Alert.alert('Something went wrong'))
-    
-  await updateUserProfile(displayName, email)
-  await updateUserPhoto(imageURL)
-  await setDoc(doc(db, "Users", user.uid), {
-      displayName: displayName,
-      imageURL: imageURL,
-      friends : {}
-    })
+
+    Alert.alert('Profile updated');
+  } catch (error) {
+    console.log('Okay');
   }
-  else if(!displayName || !email){
-    Alert.alert("Error", "Please fill all the fields")
-  }
-}
+};
+
 const handleSignOut = () => {
   setUser(null)
   auth.signOut()
 }
+
   useEffect(() => {
     const currentUser = auth.currentUser
     if(currentUser){
       setImageURL(currentUser.photoURL)
+      setDisplayName(currentUser.displayName)
+      setEmail(currentUser.email)
     }
-    
   }, [])
 
 
