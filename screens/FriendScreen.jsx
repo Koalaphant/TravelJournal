@@ -70,6 +70,7 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
+    backgroundColor: "#FFEDDF",
   },
   container: {
     flex: 1,
