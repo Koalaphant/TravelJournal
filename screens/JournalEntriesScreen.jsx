@@ -86,7 +86,10 @@ const JournalEntriesScreen = () => {
     <View style={styles.wholeScreen}>
       <ScrollView>
       {!route.params && (
-        <Picker 
+        <View style={{flex:1}}>
+        <Text style={{color:'#D76778',width: 200, alignSelf:'center', flex:0.5, textAlign:'center', fontWeight: 'bold'}}>Select country</Text>
+      <Picker 
+      style={{backgroundColor: '#fff', color:'#D76778',width: 200, alignSelf:'center', flex:0.5}}
           ref={pickerRef}
           selectedValue={country} 
           onValueChange={(country) => {
@@ -97,9 +100,10 @@ const JournalEntriesScreen = () => {
             <Picker.Item style={styles.picker} label={country} value={country} key={index} />
           ))}
         </Picker>
+        </View>
       )}
         {journalEntries.map((entry) => (
-          <View key={entry.id} style={styles.box}>
+          <ScrollView key={entry.id} style={styles.box}>
             <Pressable
               onPress={() =>
                 navigation.navigate("IndividualEntry", { id: entry.id })
@@ -107,7 +111,7 @@ const JournalEntriesScreen = () => {
             >
               <Text style={styles.entries}>{entry.title}</Text>
             </Pressable>
-          </View>
+          </ScrollView>
         ))}
       </ScrollView>
     </View>
