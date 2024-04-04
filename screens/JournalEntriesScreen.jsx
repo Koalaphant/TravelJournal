@@ -27,7 +27,7 @@ const JournalEntriesScreen = () => {
       setCountry(countryFromParams)
     }
   },[countryFromParams])
-  
+
   useEffect(() => {
     const fetchCountries = async () => {
       const q = query(collection(db, "Entries"), where("UID", "==", user.uid)); 
@@ -39,7 +39,7 @@ const JournalEntriesScreen = () => {
     };
   
     fetchCountries();
-  }, []);
+  }, [country]);
  
 
   useEffect(() => {
