@@ -47,6 +47,9 @@ const onChangeEmail = (inputText) => {
 
 const handleTakeImage = async () => {
   const takenImage = await takeImage()
+  if(!takenImage){
+    return
+  }
   setImage(takenImage)
   const imageURL = await uploadImage(takenImage)
   await updateUserPhoto(imageURL)
@@ -54,6 +57,9 @@ const handleTakeImage = async () => {
 }
 const handlePickImage = async () => {
   const pickedImage = await pickImage()
+  if(!pickedImage){
+    return
+  }
   setImage(pickedImage)
   const imageURL = await uploadImage(pickedImage)
   await updateUserPhoto(imageURL)
