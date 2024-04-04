@@ -82,17 +82,19 @@ const JournalEntriesScreen = () => {
   return (
     <View style={styles.wholeScreen}>
       <ScrollView>
+      {!route.params && (
         <Picker 
-        ref={pickerRef}
-        selectedValue={country} 
-        onValueChange={(country) => {
-          setCountry(country);
-        }}
+          ref={pickerRef}
+          selectedValue={country} 
+          onValueChange={(country) => {
+            setCountry(country);
+          }}
         >
           {countries?.map((country, index) => ( 
             <Picker.Item style={styles.picker} label={country} value={country} key={index} />
           ))}
         </Picker>
+      )}
         {journalEntries.map((entry) => (
           <View key={entry.id} style={styles.box}>
             <Pressable
