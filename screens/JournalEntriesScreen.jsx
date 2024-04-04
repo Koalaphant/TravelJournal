@@ -23,7 +23,7 @@ const JournalEntriesScreen = () => {
   const countryFromParams = route.params?.country
 
   useEffect(()=>{
-    if(countryFromParams){
+    if(countryFromParams !== undefined){
       setCountry(countryFromParams)
     }
   },[countryFromParams])
@@ -68,7 +68,7 @@ const JournalEntriesScreen = () => {
     };
 
     fetchJournalEntries();
-  }, [country, countryFromParams, countries, user.uid]); 
+  }, [country, countryFromParams, user.uid]); 
   
   const pickerRef = useRef();
 
