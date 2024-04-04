@@ -47,7 +47,10 @@ const JournalEntriesScreen = () => {
       try {
         
         let effectiveCountry = countryFromParams || country ||countries?.[0];
-
+        if (!user.uid || !effectiveCountry) {
+          console.log("User UID or effectiveCountry is undefined.");
+          return; 
+        }
         const entriesRef = collection(db, "Entries");
         const q = query(
           entriesRef,
