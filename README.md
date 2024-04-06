@@ -1,5 +1,5 @@
 
-<img src='./assets/traveLogo.png' width='500' height='150'/>
+<img src='./assets/TraveLogScreenshots.png' width='600' height='350'/>
 
 ## Summary
 Travelog is a nifty travel companion for jotting down memories, and keeping a personal journal of your travels.
